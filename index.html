@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Molle IPTV Player</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; }
+        #channel-list { max-height: 400px; overflow: auto; margin-bottom: 1rem; }
+        .channel { cursor: pointer; padding: 5px; border-bottom: 1px solid #eee; }
+        .channel:hover { background: #ececec; }
+        video { width: 80vw; max-width: 800px; height: 45vw; max-height: 450px; background: #000; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>Molle IPTV Player</h1>
+    <div id="channel-list">Loading channels…</div>
+    <video id="video" controls autoplay></video>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+    async function fetchPlaylist(url) {
+        let res = await fetch(url);
+        let text = await res.text();
+        return text.split('\n');
+    }
+    function parseChannels(lines) {
+        let channels = [];
+        for(let i=0; i<lines.length; i++) {
+            if(lines[i].startsWith('#EXTINF')) {
+                let title = lines[i].split(',').slice(1).join(',').trim() || 'Untitled';
+                let url = '';
+                for(let j=i+1; j<lines.length; ++j) {
+                    if(lines[j].trim() && !lines[j].startsWith('#')) {
+                        url = lines[j].trim();
+                        break;
+                    }
+                }
+                if(url && url.startsWith('http')) {
+                    channels.push({title, url});
+                }
+            }
+        }
+        return channels;
+    }
+    function loadChannel(url) {
+        const video = document.getElementById('video');
+        if(Hls.isSupported()) {
+            if(window.hls) window.hls.destroy();
+            window.hls = new Hls();
+            window.hls.loadSource(url);
+            window.hls.attachMedia(video);
+        } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = url;
+        }
+        video.play();
+    }
+    async function main() {
+        const PLAYLIST_URL = 'https://raw.githubusercontent.com/gemineja/molle-iptv/main/playlist.m3u8';
+        let lines = await fetchPlaylist(PLAYLIST_URL);
+        let channels = parseChannels(lines);
+        let list = document.getElementById('channel-list');
+        list.innerHTML = channels.length ? '' : 'No channels.';
+        channels.forEach((ch, idx) => {
+            const div = document.createElement('div');
+            div.textContent = ch.title;
+            div.className = 'channel';
+            div.onclick = () => loadChannel(ch.url);
+            list.appendChild(div);
+            if(idx === 0) loadChannel(ch.url);
+        });
+    }
+    main();
+    </script>
+</body>
+</html>
