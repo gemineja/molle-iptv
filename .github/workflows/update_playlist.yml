@@ -11,7 +11,7 @@ permissions:
 jobs:
   update-playlist:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,18 +19,47 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
+          cache: 'pip'
 
       - name: Install dependencies
-        run: pip install requests
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run update script
+        id: update
         run: python scripts/update_playlist.py
+        continue-on-error: true
+
+      - name: Check if playlist changed
+        id: check_changes
+        run: |
+          if git diff --quiet playlist.m3u8; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Commit and push if playlist changed
+        if: steps.check_changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add playlist.m3u8 || true
-          git diff --cached --quiet || git commit -m "Automated update: refresh playlist.m3u8"
+          git add playlist.m3u8
+          git commit -m "chore: refresh playlist [skip ci]"
           git push
+
+      - name: Upload playlist as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: playlist
+          path: playlist.m3u8
+          retention-days: 7
+
+      - name: Report status
+        if: always()
+        run: |
+          echo "✅ Workflow completed"
+          echo "- Update status: ${{ steps.update.outcome }}"
+          echo "- Playlist changed: ${{ steps.check_changes.outputs.changed }}"
