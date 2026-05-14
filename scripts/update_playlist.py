@@ -2,7 +2,7 @@ import requests
 
 SOURCES = [
     # Add more legal sources as needed
-    ("iptv-org", "https://raw.githubusercontent.com/iptv-org/iptv/master/playlists/all.m3u") ,
+    ("https://iptv-org.github.io/iptv/index.m3u"iptv-org", "https://raw.githubusercontent.com/iptv-org/iptv/master/playlists/all.m3u") ,
     ("Free-TV/IPTV", "https://raw.githubusercontent.com/Free-TV/IPTV/master/m3u/clean.m3u")
 ]
 
