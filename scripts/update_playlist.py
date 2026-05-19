@@ -2,9 +2,9 @@ import requests
 import sys
 
 SOURCES = [
-    ("iptv-org/index", "https://iptv-org.github.io/iptv/index.m3u"),
-    ("iptv-org/all", "https://raw.githubusercontent.com/iptv-org/iptv/master/playlists/all.m3u"),
-    ("Free-TV/IPTV", "https://raw.githubusercontent.com/Free-TV/IPTV/master/m3u/clean.m3u"),
+    ("iptv-org/index","https://iptv-org.github.io/iptv/index.m3u"),
+("iptv-org/all","https://raw.githubusercontent.com/iptv-org/iptv/master/playlists/all.m3u"),
+("Free-TV/IPTV","https://raw.githubusercontent.com/Free-TV/IPTV/master/m3u/clean.m3u"),
 ]
 
 def fetch_playlist(url):
