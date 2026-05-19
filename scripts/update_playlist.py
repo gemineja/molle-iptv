@@ -1,4 +1,4 @@
-import requests
+ import requests
 import sys
 
 # Each entry is (display_name, url).
@@ -6,6 +6,13 @@ import sys
 # "iptv-org" was stuck inside the first URL string without a comma.
 # Splitting into two clean entries instead.
 SOURCES = [
+    ("iptv-org/index",  "https://iptv-org.github.io/iptv/index.m3u"),
+    ("iptv-org/all",    "https://raw.githubusercontent.com/iptv-org/iptv/master/playlists/all.m3u"),
+    ("Free-TV/IPTV",    "https://raw.githubusercontent.com/Free-TV/IPTV/master/m3u/clean.m3u"),
+    ("iptv-org/index",  "https://iptv-org.github.io/iptv/index.m3u"),
+    ("iptv-org/all",    "https://raw.githubusercontent.com/iptv-org/iptv/master/playlists/all.m3u"),
+    ("Free-TV/IPTV",    "https://raw.githubusercontent.com/Free-TV/IPTV/master/m3u/clean.m3u"),
+]
     ("iptv-org/index",  "https://iptv-org.github.io/iptv/index.m3u"),
     ("iptv-org/all",    "https://raw.githubusercontent.com/iptv-org/iptv/master/playlists/all.m3u"),
     ("Free-TV/IPTV",    "https://raw.githubusercontent.com/Free-TV/IPTV/master/m3u/clean.m3u"),
