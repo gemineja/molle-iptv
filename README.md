@@ -27,4 +27,4 @@ A fully automated, self-updating legal IPTV web player. This project fetches and
 - This project merges public domain streams. Only use and distribute legal and freely available channels. You are responsible for complying with your local laws.
 
 ## License
-MIT
+Apache License 2.0
