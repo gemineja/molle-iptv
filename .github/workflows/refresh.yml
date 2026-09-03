@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # a shallow clone cannot rebase
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -50,7 +52,21 @@ jobs:
             echo "No changes — nothing to commit."
           else
             git commit -m "chore: refresh playlist [skip ci]"
-            git push
+
+            # The build takes minutes, so a commit can land while it runs. A
+            # bare push then loses the whole playlist to a non-fast-forward,
+            # which is exactly how the geo-restriction fix got thrown away.
+            for attempt in 1 2 3; do
+              if git push; then
+                echo "Pushed on attempt $attempt."
+                exit 0
+              fi
+              echo "Push rejected — rebasing onto origin/main and retrying."
+              git pull --rebase --autostash origin main
+            done
+
+            echo "Could not push after 3 attempts." >&2
+            exit 1
           fi
 
       - name: Upload playlist as artifact
