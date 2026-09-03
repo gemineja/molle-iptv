@@ -36,17 +36,25 @@
             margin-bottom: 1rem;
         }
 
-        #search {
+        #filters {
+            display: none;
             width: 100%;
             max-width: 860px;
-            padding: 0.5rem 0.75rem;
+            gap: 0.5rem;
             margin-bottom: 0.5rem;
+        }
+
+        #search, #category-filter {
+            padding: 0.5rem 0.75rem;
             background: #222;
             border: 1px solid #444;
             border-radius: 4px;
             color: #eee;
             font-size: 0.95rem;
         }
+
+        #search { flex: 1; min-width: 0; }
+        #category-filter { flex: 0 0 auto; }
 
         #channel-list {
             width: 100%;
@@ -92,7 +100,10 @@
     <h1>📺 Molle IPTV</h1>
     <div id="status">Loading playlist…</div>
     <video id="video" controls></video>
-    <input id="search" type="text" placeholder="Search channels…" style="display:none">
+    <div id="filters">
+        <input id="search" type="text" placeholder="Search channels…">
+        <select id="category-filter"></select>
+    </div>
     <div id="channel-list"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -112,6 +123,33 @@
         return USE_PROXY ? PROXY_BASE + url : url;
     }
 
+    // ─── Category normalization ──────────────────────────────────────────────
+    // Upstream group-title values are messy (179+ distinct strings, compound
+    // values like "Animation;Comedy", and ~3300 channels tagged "Undefined").
+    // Collapse them into a small, consistent set for the category filter.
+    const CATEGORY_MAP = {
+        news: 'News', public: 'News', legislative: 'News',
+        sports: 'Sports', outdoor: 'Sports',
+        movies: 'Movies & Series', series: 'Movies & Series', classic: 'Movies & Series',
+        entertainment: 'Entertainment', comedy: 'Entertainment',
+        music: 'Music',
+        kids: 'Kids & Family', family: 'Kids & Family', animation: 'Kids & Family',
+        documentary: 'Documentary & Education', education: 'Documentary & Education',
+        science: 'Documentary & Education', culture: 'Documentary & Education',
+        religious: 'Religious',
+        lifestyle: 'Lifestyle', cooking: 'Lifestyle', travel: 'Lifestyle',
+        auto: 'Lifestyle', shop: 'Lifestyle', business: 'Lifestyle', weather: 'Lifestyle',
+    };
+    const OTHER_CATEGORY = 'Other';
+
+    function normalizeCategory(rawGroup) {
+        const parts = rawGroup.split(';').map(s => s.trim().toLowerCase()).filter(Boolean);
+        for (const part of parts) {
+            if (CATEGORY_MAP[part]) return CATEGORY_MAP[part];
+        }
+        return OTHER_CATEGORY;
+    }
+
     // ─── Playlist parsing ─────────────────────────────────────────────────────
     async function fetchPlaylist(url) {
         const res = await fetch(url);
@@ -121,14 +159,16 @@
 
     function parseChannels(lines) {
         const channels = [];
+        let insecureSkipped = 0;
+
         for (let i = 0; i < lines.length; i++) {
             if (!lines[i].startsWith('#EXTINF')) continue;
 
             // Parse attributes from the #EXTINF tag (tvg-logo, group-title, etc.)
-            const meta   = lines[i];
-            const title  = meta.split(',').slice(1).join(',').trim() || 'Untitled';
-            const logo   = (meta.match(/tvg-logo="([^"]*)"/)  || [])[1] || '';
-            const group  = (meta.match(/group-title="([^"]*)"/) || [])[1] || '';
+            const meta      = lines[i];
+            const title     = meta.split(',').slice(1).join(',').trim() || 'Untitled';
+            const logo      = (meta.match(/tvg-logo="([^"]*)"/)  || [])[1] || '';
+            const rawGroup  = (meta.match(/group-title="([^"]*)"/) || [])[1] || '';
 
             // Find the next non-comment, non-empty line — that's the stream URL.
             let streamUrl = '';
@@ -137,11 +177,22 @@
                 if (l && !l.startsWith('#')) { streamUrl = l; break; }
             }
 
-            if (streamUrl && streamUrl.startsWith('http')) {
-                channels.push({ title, logo, group, url: streamUrl });
+            if (!streamUrl) continue;
+
+            // This page is served over https, so browsers block http:// stream
+            // requests as mixed content — they'd never play. Skip them here
+            // instead of listing dead entries (playlist.m3u8 itself still has
+            // them, for players outside the browser where this isn't an issue).
+            if (streamUrl.startsWith('http://')) {
+                insecureSkipped++;
+                continue;
+            }
+
+            if (streamUrl.startsWith('https://')) {
+                channels.push({ title, logo, group: normalizeCategory(rawGroup), url: streamUrl });
             }
         }
-        return channels;
+        return { channels, insecureSkipped };
     }
 
     // ─── Playback ─────────────────────────────────────────────────────────────
@@ -198,12 +249,13 @@
         document.getElementById('status').textContent = msg;
     }
 
-    function renderList(channels, filter = '') {
-        const list    = document.getElementById('channel-list');
-        const query   = filter.toLowerCase();
-        const visible = query
-            ? channels.filter(ch => ch.title.toLowerCase().includes(query))
-            : channels;
+    function renderList(channels, filter = '', category = '') {
+        const list  = document.getElementById('channel-list');
+        const query = filter.toLowerCase();
+        const visible = channels.filter(ch =>
+            (!query || ch.title.toLowerCase().includes(query)) &&
+            (!category || ch.group === category)
+        );
 
         list.innerHTML = '';
 
@@ -224,16 +276,16 @@
             div.addEventListener('click', () => loadChannel(ch, div));
             list.appendChild(div);
 
-            // Auto-play first channel on initial load (no filter active)
-            if (idx === 0 && !filter) loadChannel(ch, div);
+            // Auto-play first channel on initial load (no filter/category active)
+            if (idx === 0 && !filter && !category) loadChannel(ch, div);
         });
     }
 
     // ─── Entry point ─────────────────────────────────────────────────────────
     async function main() {
         try {
-            const lines    = await fetchPlaylist(PLAYLIST_URL);
-            const channels = parseChannels(lines);
+            const lines = await fetchPlaylist(PLAYLIST_URL);
+            const { channels, insecureSkipped } = parseChannels(lines);
 
             if (!channels.length) {
                 setStatus('⚠️ Playlist loaded but no valid channels found.');
@@ -242,11 +294,26 @@
                 return;
             }
 
-            setStatus(`${channels.length} channels loaded.`);
+            setStatus(
+                `${channels.length} channels loaded` +
+                (insecureSkipped ? ` (${insecureSkipped} insecure http streams skipped — blocked by the browser on this https page)` : '') +
+                '.'
+            );
 
-            const search = document.getElementById('search');
-            search.style.display = 'block';
-            search.addEventListener('input', () => renderList(channels, search.value));
+            const search   = document.getElementById('search');
+            const catSel   = document.getElementById('category-filter');
+            const filters  = document.getElementById('filters');
+
+            const categories = [...new Set(channels.map(ch => ch.group))].sort((a, b) =>
+                a === OTHER_CATEGORY ? 1 : b === OTHER_CATEGORY ? -1 : a.localeCompare(b)
+            );
+            catSel.innerHTML = '<option value="">All categories</option>' +
+                categories.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            filters.style.display = 'flex';
+            const update = () => renderList(channels, search.value, catSel.value);
+            search.addEventListener('input', update);
+            catSel.addEventListener('change', update);
 
             renderList(channels);
 
