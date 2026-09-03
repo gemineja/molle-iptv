@@ -44,7 +44,7 @@
             margin-bottom: 0.5rem;
         }
 
-        #search, #category-filter {
+        #search, #category-filter, #language-filter {
             padding: 0.5rem 0.75rem;
             background: #222;
             border: 1px solid #444;
@@ -54,7 +54,7 @@
         }
 
         #search { flex: 1; min-width: 0; }
-        #category-filter { flex: 0 0 auto; }
+        #category-filter, #language-filter { flex: 0 0 auto; }
 
         #channel-list {
             width: 100%;
@@ -102,6 +102,7 @@
     <video id="video" controls></video>
     <div id="filters">
         <input id="search" type="text" placeholder="Search channels…">
+        <select id="language-filter"></select>
         <select id="category-filter"></select>
     </div>
     <div id="channel-list"></div>
@@ -169,6 +170,7 @@
             const title     = meta.split(',').slice(1).join(',').trim() || 'Untitled';
             const logo      = (meta.match(/tvg-logo="([^"]*)"/)  || [])[1] || '';
             const rawGroup  = (meta.match(/group-title="([^"]*)"/) || [])[1] || '';
+            const language  = (meta.match(/tvg-language="([^"]*)"/) || [])[1] || '';
 
             // Find the next non-comment, non-empty line — that's the stream URL.
             let streamUrl = '';
@@ -189,7 +191,11 @@
             }
 
             if (streamUrl.startsWith('https://')) {
-                channels.push({ title, logo, group: normalizeCategory(rawGroup), url: streamUrl });
+                channels.push({
+                    title, logo, url: streamUrl,
+                    group: normalizeCategory(rawGroup),
+                    language: language || 'Unknown',
+                });
             }
         }
         return { channels, insecureSkipped };
@@ -249,12 +255,13 @@
         document.getElementById('status').textContent = msg;
     }
 
-    function renderList(channels, filter = '', category = '') {
+    function renderList(channels, filter = '', category = '', language = '') {
         const list  = document.getElementById('channel-list');
         const query = filter.toLowerCase();
         const visible = channels.filter(ch =>
             (!query || ch.title.toLowerCase().includes(query)) &&
-            (!category || ch.group === category)
+            (!category || ch.group === category) &&
+            (!language || ch.language === language)
         );
 
         list.innerHTML = '';
@@ -276,8 +283,8 @@
             div.addEventListener('click', () => loadChannel(ch, div));
             list.appendChild(div);
 
-            // Auto-play first channel on initial load (no filter/category active)
-            if (idx === 0 && !filter && !category) loadChannel(ch, div);
+            // Auto-play first channel on initial load (no filter/category/language active)
+            if (idx === 0 && !filter && !category && !language) loadChannel(ch, div);
         });
     }
 
@@ -302,6 +309,7 @@
 
             const search   = document.getElementById('search');
             const catSel   = document.getElementById('category-filter');
+            const langSel  = document.getElementById('language-filter');
             const filters  = document.getElementById('filters');
 
             const categories = [...new Set(channels.map(ch => ch.group))].sort((a, b) =>
@@ -310,10 +318,17 @@
             catSel.innerHTML = '<option value="">All categories</option>' +
                 categories.map(c => `<option value="${c}">${c}</option>`).join('');
 
+            const languages = [...new Set(channels.map(ch => ch.language))].sort((a, b) =>
+                a === 'Unknown' ? 1 : b === 'Unknown' ? -1 : a.localeCompare(b)
+            );
+            langSel.innerHTML = '<option value="">All languages</option>' +
+                languages.map(l => `<option value="${l}">${l}</option>`).join('');
+
             filters.style.display = 'flex';
-            const update = () => renderList(channels, search.value, catSel.value);
+            const update = () => renderList(channels, search.value, catSel.value, langSel.value);
             search.addEventListener('input', update);
             catSel.addEventListener('change', update);
+            langSel.addEventListener('change', update);
 
             renderList(channels);
 
