@@ -4,7 +4,10 @@ The point of this workflow is that a visitor who clicks a channel gets a
 picture. Two things stand in the way, and both are handled here:
 
   * roughly half of the public streams out there don't work in a browser at
-    all — see is_browser_playable() — so they're validated and dropped.
+    all — see stream_status() — so they're tested and the dead ones dropped.
+    A stream that merely refuses *this* machine is kept and marked instead:
+    the build runs in the United States and the audience does not, and DR1
+    and DR2 answer perfectly well in Copenhagen.
   * the source playlists are barely categorised. A quarter of them arrive as
     "Undefined", and one source labels its groups by country instead. Nobody
     browses 3,000 uncategorised channels, so the category, country and region
@@ -202,35 +205,39 @@ def merge(sources, meta, lang, nsfw, countries, country_region):
     return entries
 
 
-def is_browser_playable(url):
-    """Can hls.js load this from an arbitrary https site?
+def stream_status(url):
+    """"ok" | "restricted" | "dead", from where this build happens to run.
 
-    1. https. http:// is blocked as mixed content on any https page, and
-       retrying those over https recovers about 5% of them — not worth it.
-    2. CORS any origin can use. "*" works for everyone, and so does a server
-       that echoes back whatever Origin asked. One pinned to someone else's
-       origin (Pluto returns http://pluto.tv) is useless to every embedder.
-    3. No http:// inside the manifest. A master playlist can answer 200 over
-       https and still point every variant at http://, and the failure then
-       lands one hop later, where it looks like nothing happened at all.
+    The distinction matters because the build runs on a GitHub runner in the
+    United States while the audience is somewhere else entirely. DR1 and DR2
+    answer 200 in Copenhagen and refuse the runner, and an earlier version of
+    this check deleted them for it — channels that had never once failed for
+    an actual visitor.
+
+    So an access refusal is not evidence that a stream is dead. It is evidence
+    that *this machine* may not watch it, which is a different fact and not
+    one worth deleting a channel over. Those are kept and marked; the player
+    can tell the visitor a channel may need to be in its home country.
     """
     if not url.startswith("https://"):
-        return False
+        return "dead"          # mixed content: nobody can play it in a browser
     probe_origin = "https://molle-iptv.example"
     resp = None
     try:
         resp = requests.get(url, timeout=TIMEOUT, stream=True,
                             headers={"User-Agent": UA, "Origin": probe_origin})
+        if resp.status_code in (401, 403, 451):
+            return "restricted"
         if resp.status_code != 200:
-            return False
+            return "dead"
         if resp.headers.get("Access-Control-Allow-Origin") not in ("*", probe_origin):
-            return False
-        if not resp.url.startswith("https://"):  # redirected down to http
-            return False
+            return "dead"      # useless to every embedder, wherever they are
+        if not resp.url.startswith("https://"):
+            return "dead"
         body = resp.raw.read(4096, decode_content=True).decode("utf-8", "replace")
-        return "http://" not in body
+        return "dead" if "http://" in body else "ok"
     except Exception:
-        return False
+        return "dead"
     finally:
         if resp is not None:
             try:
@@ -243,10 +250,24 @@ def validate(entries):
     targets = entries[:LIMIT] if LIMIT else entries
     print(f"Validating {len(targets)} streams, {WORKERS} at a time ({TIMEOUT}s timeout)…")
     with ThreadPoolExecutor(WORKERS) as pool:
-        results = list(pool.map(lambda e: is_browser_playable(e[1]), targets))
-    kept = [e for e, ok in zip(targets, results) if ok]
-    print(f"Browser-playable: {len(kept)}/{len(targets)} "
-          f"({len(kept) / max(len(targets), 1) * 100:.1f}%)")
+        results = list(pool.map(lambda e: stream_status(e[1]), targets))
+
+    kept = []
+    counts = {"ok": 0, "restricted": 0, "dead": 0}
+    for (extinf, url), status in zip(targets, results):
+        counts[status] += 1
+        if status == "dead":
+            continue
+        if status == "restricted" and 'tvg-geo="' not in extinf:
+            # kept deliberately: this build could not watch it, but the
+            # visitor may well be in the country that can
+            extinf = extinf.replace("#EXTINF:-1", '#EXTINF:-1 tvg-geo="restricted"', 1)
+        kept.append((extinf, url))
+
+    total = max(len(targets), 1)
+    print(f"Playable here: {counts['ok']} ({counts['ok']/total*100:.1f}%)  "
+          f"kept as geo-restricted: {counts['restricted']}  "
+          f"dropped as dead: {counts['dead']}")
     return kept
 
 

@@ -84,9 +84,14 @@ and each rule is a real failure that used to reach visitors:
 
 Adult channels (`is_nsfw` in iptv-org's data) are excluded.
 
-Validation runs from a GitHub runner in the United States, so a channel that
-is geo-restricted to its home country may be dropped even though your own
-visitors could watch it. That is the one known blind spot.
+**Geo-restricted channels are kept, not dropped.** The build runs on a GitHub
+runner in the United States; your visitors are somewhere else. A stream that
+answers `401`, `403` or `451` is not dead — it simply won't serve *that
+machine*. DR1 and DR2 refuse the runner and answer `200` in Copenhagen, and
+an earlier version of this check deleted them for it. Those channels stay in
+the list carrying `tvg-geo="restricted"`, so a player can tell the visitor a
+channel may need to be watched from its home country instead of pretending it
+doesn't exist.
 
 ## Getting more channels
 
