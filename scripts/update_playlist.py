@@ -53,6 +53,7 @@ CATEGORY = {
     "religious": "Religious",
     "lifestyle": "Lifestyle", "cooking": "Lifestyle", "travel": "Lifestyle",
     "auto": "Lifestyle", "shop": "Lifestyle",
+    "xxx": "Adult",
 }
 FALLBACK_CATEGORY = "General"
 
@@ -85,7 +86,7 @@ def fetch_json(url):
 
 
 def load_metadata():
-    """tvg-id -> {language, category, country, region}, plus an NSFW id set.
+    """tvg-id -> {language, category, country, region}, plus an adult id set.
 
     Playlist ids look like "DR1.dk@SD"; channels.json keys on "DR1.dk", so the
     feed suffix is stripped before matching.
@@ -128,16 +129,15 @@ def load_metadata():
         if codes:
             lang[f"{feed['channel']}@{feed['id']}"] = languages.get(codes[0], codes[0])
 
-    print(f"Metadata: {len(meta)} channels, {len(lang)} feeds, {len(nsfw)} nsfw excluded")
+    print(f"Metadata: {len(meta)} channels, {len(lang)} feeds, "
+          f"{len(nsfw)} flagged adult")
     return meta, lang, nsfw, countries, country_region
 
 
 def enrich(extinf, meta, lang, nsfw, countries, country_region):
-    """Returns the #EXTINF line with our attributes filled in, or None to drop."""
+    """Returns the #EXTINF line with our attributes filled in."""
     tvg_id = (re.search(r'tvg-id="([^"]*)"', extinf) or [None, ""])[1]
     channel_id = tvg_id.split("@")[0]
-    if channel_id and channel_id in nsfw:
-        return None
 
     info = meta.get(channel_id, {})
     country, region = info.get("country", ""), info.get("region", "")
@@ -156,6 +156,9 @@ def enrich(extinf, meta, lang, nsfw, countries, country_region):
         "tvg-language": lang.get(tvg_id, ""),
         "tvg-country": country,
         "tvg-region": region,
+        # Marked rather than removed. Whoever embeds this decides — the flag
+        # is here so hiding them is one filter, not a fork of the playlist.
+        "tvg-adult": "1" if channel_id in nsfw else "",
     }
     # Overwrite rather than fill in blanks: one source already ships
     # tvg-country as a bare code ("IT"), and a dropdown holding both "IT" and
@@ -179,7 +182,7 @@ def enrich(extinf, meta, lang, nsfw, countries, country_region):
 
 
 def merge(sources, meta, lang, nsfw, countries, country_region):
-    entries, seen, dropped = [], set(), 0
+    entries, seen = [], set()
     for name, url in sources:
         try:
             lines = fetch_text(url).split("\n")
@@ -193,15 +196,10 @@ def merge(sources, meta, lang, nsfw, countries, country_region):
             url_line = lines[i + 1].strip() if i + 1 < len(lines) else ""
             if not url_line or url_line in seen:
                 continue
-            enriched = enrich(line, meta, lang, nsfw, countries, country_region)
-            if enriched is None:
-                dropped += 1
-                continue
-            entries.append((enriched, url_line))
+            entries.append((enrich(line, meta, lang, nsfw, countries, country_region),
+                            url_line))
             seen.add(url_line)
         print(f"{name}: +{len(entries) - before} channels")
-    if dropped:
-        print(f"Excluded {dropped} adult channels.")
     return entries
 
 
