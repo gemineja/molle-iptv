@@ -17915,7 +17915,7 @@ https://fs.uplink.kz/tnv/mono.m3u8?token=onlinetv
 https://user91229.clients-cdnnow.ru/hls/user91229_1.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Russia" tvg-language="Russian" tvg-id="Tochkaotryva.ru@SD" tvg-logo="https://i.imgur.com/TZiBQDK.png" group-title="General",Tochka otryva (576p)
 https://stream8.cinerama.uz/1031/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Russia" tvg-id="TochkaRF.ru@SD" tvg-logo="https://i.imgur.com/tKgmhxh.png" group-title="Documentary",Tochka RF (1080p)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Russia" tvg-id="TochkaRF.ru@SD" tvg-logo="https://i.imgur.com/tKgmhxh.png" group-title="General",Tochka RF (1080p)
 http://stream.mcquack.net/161/index.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="English" tvg-id="TODAYAllDay.us@SD" tvg-logo="https://i.imgur.com/LhbQ8Mr.png" group-title="News",TODAY All Day (1080p)
 https://d37kx062o4ii0p.cloudfront.net/master.m3u8
@@ -19533,7 +19533,7 @@ https://d3ify425qsio2d.cloudfront.net/playlist.m3u8
 https://cdn.mycloudstream.io/hls/live/broadcast/xundwjvp/index.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="Bolivia" tvg-language="Spanish" tvg-id="Unifranz.bo@HD" tvg-logo="https://unifranz.edu.bo/wp-content/themes/unifranz-web/public/images/logos/logo-light-min.442cee.svg" group-title="Documentary",Unifranz (720p)
 https://edge.enhdtv.com/8192/index.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Russia" tvg-language="Russian" tvg-id="Unikum.ru@SD" tvg-logo="https://i.imgur.com/kSJZjDL.png" group-title="General",Unikum (576p)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Russia" tvg-language="Russian" tvg-id="Unikum.ru@SD" tvg-logo="https://i.imgur.com/kSJZjDL.png" group-title="Kids & Family",Unikum (576p)
 http://45.145.32.13:20440/nauka/index.m3u8?token=test
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="English" tvg-id="UniMas.us@Central" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Logo_UniM%C3%A1s_2021.svg/960px-Logo_UniM%C3%A1s_2021.svg.png" group-title="General",UniMas Central (720p)
 http://190.197.41.183/Unimas/mono.m3u8
