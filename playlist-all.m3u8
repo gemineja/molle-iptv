@@ -18319,7 +18319,7 @@ https://alpha.tv.online.tm/hls/ch002.m3u8
 https://ncdn.telewebion.ir/taban/live/playlist.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-country="Yemen" tvg-language="Arabic" tvg-id="YemenTodayTV.ye@SD" tvg-logo="https://i.imgur.com/8TzcJu5.png" group-title="General",Yemen Today TV (480p)
 https://video.yementdy.tv/hls/yementoday.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-country="Maldives" tvg-language="Dhivehi" tvg-id="YES.mv@SD" tvg-logo="https://i.imgur.com/HARIGQl.png" group-title="News",YES
+#EXTINF:-1 tvg-region="Asia" tvg-country="Maldives" tvg-language="Dhivehi" tvg-id="YES.mv@SD" tvg-logo="https://i.imgur.com/HARIGQl.png" group-title="Entertainment",YES
 https://customer-ujex1meek7koqd9x.cloudflarestream.com/4f0b316cdb0fbb7f8ca93860ed11d38b/manifest/video.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="English" tvg-id="YesNetwork.us@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/YES_Network_logo.svg/960px-YES_Network_logo.svg.png" group-title="General",Yes Network (720p)
 http://23.237.104.106:8080/USA_YES_NETWORK/index.m3u8
