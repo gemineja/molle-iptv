@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MOLL∆ — Television</title>
-<meta name="description" content="Free-to-air channels from around the world, by genre and by country.">
-<link rel="preload" href="assets/fonts/unbounded-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="description" content="Free-to-air channels from around the world, by genre, country and language. Every stream is tested twice a day.">
+<meta name="theme-color" content="#0E0A14">
+<meta property="og:title" content="MOLL∆ — Television">
+<meta property="og:description" content="Free-to-air channels from around the world, tested twice a day.">
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" href="assets/fonts/unbounded-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/space-grotesk-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* same self-hosted faces as index.html — no external font calls */
@@ -16,14 +21,14 @@
   @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;font-display:swap;src:url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2')}
 </style>
 <style>
-  /* palette identical to index.html */
+  /* palette identical to index.html — no new colours */
   :root{
     --ink:#0E0A14; --ink2:#161022; --rose:#B591F0; --bone:#EDE9F4; --ash:#8E84A6;
     --line:rgba(237,233,244,.08); --line2:rgba(237,233,244,.16);
-    --rose-dim:rgba(181,145,240,.4);
+    --rose-dim:rgba(181,145,240,.4); --rose-glow:rgba(181,145,240,.45); --rose-wash:rgba(181,145,240,.06);
     --display:'Unbounded',sans-serif; --read:'Space Grotesk',sans-serif;
     --rail:99px; --pad:clamp(1.4rem,4.5vw,4.5rem);
-    --row:58px;
+    --row:60px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{overflow-x:clip}
@@ -34,13 +39,17 @@
       var(--ink);
     color:var(--bone); font-family:var(--read); font-weight:300;
     font-size:17px; line-height:1.7; -webkit-font-smoothing:antialiased;
-    min-height:100vh; overflow-x:hidden;
+    min-height:100vh; overflow-x:clip;  /* clip, not hidden: hidden would make body a scroll box and break the sticky player */
   }
   ::selection{background:var(--rose);color:var(--ink)}
   a{color:var(--bone);text-decoration:none} a:hover{color:var(--rose)}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   :focus-visible{outline:1px solid var(--rose);outline-offset:3px}
+  [hidden]{display:none !important}
   .label{font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--ash)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
+  /* ---- rail + nav, exactly as the rest of the site carries them ---- */
   .rail{
     position:fixed;top:0;bottom:0;left:0;width:var(--rail);z-index:60;
     display:flex;flex-direction:column;align-items:center;justify-content:space-between;
@@ -53,9 +62,7 @@
   .rail .cph{font-size:.6rem;letter-spacing:.3em}
 
   main{margin-left:var(--rail);padding:0 var(--pad) 3rem}
-  .nav{
-    display:flex;gap:clamp(1.1rem,2.4vw,2.2rem);padding:1.5rem 0 2.4rem;flex-wrap:wrap;
-  }
+  .nav{display:flex;gap:clamp(1.1rem,2.4vw,2.2rem);padding:1.5rem 0 2.4rem;flex-wrap:wrap}
   .nav a{color:var(--ash);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;transition:color .4s}
   .nav a:hover{color:var(--bone)}
   .nav a.on{color:var(--rose);text-shadow:0 0 16px rgba(181,145,240,.5)}
@@ -70,56 +77,131 @@
     letter-spacing:.02em;text-transform:uppercase;text-shadow:0 0 24px rgba(181,145,240,.35);
   }
   .sec-head h1::after{content:".";color:var(--rose)}
+  .sec-head .label{margin-left:auto;font-variant-numeric:tabular-nums}
 
-  .tv{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,440px);gap:clamp(2rem,4vw,3.4rem);align-items:start}
-  @media(max-width:960px){ .tv{grid-template-columns:1fr} }
+  .tv{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,450px);gap:clamp(2rem,4vw,3.4rem);align-items:start}
 
-  .screen{position:relative;aspect-ratio:16/9;background:var(--ink2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
-  .screen video{width:100%;height:100%;display:block;background:#000}
-  .screen video.hide{display:none}
-  .screen .idle{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-  .screen .idle svg{width:22%;max-width:150px;color:var(--rose);opacity:.13}
-  .screen .idle path{fill:none;stroke:currentColor;stroke-width:9;stroke-linejoin:round}
+  /* ---- the screen ---- */
+  .stage{position:sticky;top:1.2rem;min-width:0}
+  .screen{position:relative;aspect-ratio:16/9;background:var(--ink2);border:1px solid var(--line);overflow:hidden}
+  .screen video{position:absolute;inset:0;width:100%;height:100%;display:block;background:#000}
+  .screen video.hide{visibility:hidden}
+  .screen:fullscreen{border:0;background:#000}
+  .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+           gap:.9rem;text-align:center;padding:1.4rem}
+  .idle svg{width:22%;max-width:150px;color:var(--rose);opacity:.13}
+  .idle svg path,.empty svg path{fill:none;stroke:currentColor;stroke-width:9;stroke-linejoin:round}
+  .idle .hint{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ash)}
+  .btn{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--rose-dim);color:var(--bone);
+       padding:.62rem 1.1rem;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;transition:border-color .3s,color .3s,background .3s}
+  .btn:hover{border-color:var(--rose);color:var(--rose)}
+  .btn.ghost{border-color:var(--line2);color:var(--ash)}
+  .btn.ghost:hover{border-color:var(--rose-dim);color:var(--bone)}
+  .btn.solid{background:var(--rose);border-color:var(--rose);color:var(--ink)}
+  .btn.solid:hover{background:none;color:var(--rose)}
+
+  .err{background:rgba(14,10,20,.92);align-items:flex-start;text-align:left;justify-content:center;padding:clamp(1.2rem,4vw,3rem)}
+  .err .row{display:flex;gap:1rem;align-items:flex-start;max-width:46ch}
+  .err svg{width:22px;height:22px;flex:none;color:var(--ash);margin-top:.3rem}
+  .err svg path{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+  .err .k{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ash);margin-bottom:.5rem}
+  .err .t{font-family:var(--display);font-weight:500;font-size:clamp(.95rem,1.8vw,1.1rem);line-height:1.4}
+  .err .t small{font-family:var(--read);font-weight:300;font-size:.8rem;color:var(--ash)}
+  .err p{color:var(--ash);font-size:.88rem;margin-top:.5rem;line-height:1.6}
+  .err .acts{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.1rem}
+
+  .tap{background:linear-gradient(transparent 55%, rgba(14,10,20,.55));justify-content:flex-end;align-items:flex-end;pointer-events:none}
+  .tap .btn{pointer-events:auto;background:rgba(14,10,20,.8)}
+
   .livedot{position:absolute;left:18px;top:15px;display:flex;align-items:center;gap:9px;pointer-events:none}
   .livedot i{width:6px;height:6px;background:var(--rose);box-shadow:0 0 10px var(--rose);animation:beat 2.4s ease-in-out infinite}
-  .livedot span{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ash)}
+  .livedot span{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--bone);text-shadow:0 0 6px #000}
   @keyframes beat{0%,100%{opacity:.45}50%{opacity:1}}
 
-  .now{display:flex;align-items:baseline;gap:1.1rem;border-top:1px solid var(--line);padding-top:1rem;margin-top:1.2rem;flex-wrap:wrap}
-  .now .t{font-family:var(--display);font-weight:500;font-size:clamp(1rem,1.9vw,1.25rem);color:var(--rose);text-shadow:0 0 18px rgba(181,145,240,.45)}
-  .now .m{font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ash)}
-  .now .r{margin-left:auto;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);font-variant-numeric:tabular-nums}
+  .osd{position:absolute;right:18px;top:13px;max-width:60%;pointer-events:none;text-align:right;
+       font-family:var(--display);font-weight:500;font-size:clamp(.8rem,1.6vw,1rem);color:var(--rose);
+       text-shadow:0 0 18px var(--rose-glow),0 0 6px #000;opacity:0;transform:translateY(-4px);transition:opacity .35s,transform .35s}
+  .osd.show{opacity:1;transform:none}
+  .osd small{display:block;font-family:var(--read);font-weight:400;font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--bone)}
 
-  .filters{display:flex;flex-direction:column;gap:.75rem}
-  .filters input,.filters select{
+  .buf{position:absolute;left:0;right:0;bottom:0;height:2px;overflow:hidden;pointer-events:none}
+  .buf i,.bar i{position:absolute;inset:0 auto 0 0;width:30%;background:var(--rose);animation:sweep 1.9s ease-in-out infinite}
+  @keyframes sweep{0%{transform:translateX(-100%)}100%{transform:translateX(330%)}}
+
+  /* ---- now playing ---- */
+  .now{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1rem;
+       border-top:1px solid var(--line);padding-top:1rem;margin-top:1.2rem}
+  .now .logo{width:42px;height:42px}
+  .now .t{font-family:var(--display);font-weight:500;font-size:clamp(1rem,1.9vw,1.25rem);color:var(--rose);
+          text-shadow:0 0 18px var(--rose-glow);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.35}
+  .now .t.off{color:var(--bone);text-shadow:none}
+  .now .m{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ash);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tools{display:flex;align-items:center;gap:.25rem}
+  .ib{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;color:var(--ash);
+      border:1px solid transparent;transition:color .3s,border-color .3s}
+  .ib:hover{color:var(--bone);border-color:var(--line2)}
+  .ib[aria-pressed="true"]{color:var(--rose)}
+  .ib svg{width:17px;height:17px}
+  .ib svg *{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .ib[aria-pressed="true"] svg .fill{fill:currentColor}
+  .ib:disabled{opacity:.3;cursor:default}
+  .qsel{width:auto;background:none;border:1px solid var(--line2);color:var(--ash);font:inherit;font-size:.62rem;letter-spacing:.16em;
+        text-transform:uppercase;padding:.45rem .5rem;margin-right:.35rem;border-radius:0;font-variant-numeric:tabular-nums;cursor:pointer}
+  .qsel:focus{border-color:var(--rose)}
+  .qsel option{background:var(--ink2);color:var(--bone)}
+  .keys{margin-top:.9rem;display:flex;gap:1.3rem;flex-wrap:wrap;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ash)}
+  .keys kbd{font-family:var(--read);font-weight:500;color:var(--bone);border:1px solid var(--line2);padding:.05rem .4rem;margin-right:.45rem;letter-spacing:0}
+
+  /* ---- browser ---- */
+  .browse{display:flex;flex-direction:column;gap:.9rem;min-width:0}
+  .search{position:relative}
+  .search svg{position:absolute;left:1rem;top:50%;width:15px;height:15px;transform:translateY(-50%);color:var(--ash);pointer-events:none}
+  .search svg *{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+  .search kbd{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);font-family:var(--read);font-size:.62rem;
+              color:var(--ash);border:1px solid var(--line2);padding:0 .4rem;pointer-events:none}
+  input,select{
     width:100%;background:none;border:1px solid var(--line2);color:var(--bone);
     padding:.8rem 1rem;font-family:var(--read);font-weight:300;font-size:.9rem;
     letter-spacing:.04em;outline:none;border-radius:0;
   }
-  .filters select{appearance:none;cursor:pointer;
+  .search input{padding-left:2.6rem;padding-right:2.4rem}
+  input::-webkit-search-cancel-button{display:none}
+  input::placeholder{color:var(--ash)}
+  input:focus,select:focus{border-color:var(--rose)}
+  select{appearance:none;cursor:pointer;
     background-image:linear-gradient(45deg,transparent 50%,var(--ash) 50%),linear-gradient(135deg,var(--ash) 50%,transparent 50%);
     background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;
-    background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:2.4rem}
-  .filters option{background:var(--ink2);color:var(--bone)}
-  .filters input::placeholder{color:var(--ash)}
-  .filters input:focus,.filters select:focus{border-color:var(--rose)}
+    background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:2.4rem;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  select.set{border-color:var(--rose-dim);color:var(--rose)}
+  option,optgroup{background:var(--ink2);color:var(--bone)}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-  @media(max-width:420px){ .two{grid-template-columns:1fr} }
 
-  .tally{display:flex;align-items:baseline;gap:.8rem;padding:.2rem 0 .1rem}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:-6px;
+         scrollbar-width:thin;scrollbar-color:var(--line2) transparent;scroll-snap-type:x proximity;
+         -webkit-mask-image:linear-gradient(to right,#000 88%,transparent);mask-image:linear-gradient(to right,#000 88%,transparent)}
+  .chips.end{-webkit-mask-image:none;mask-image:none}
+  .chips::-webkit-scrollbar{height:3px}
+  .chips::-webkit-scrollbar-thumb{background:var(--line2)}
+  .chip{flex:none;border:1px solid var(--line2);color:var(--ash);padding:.45rem .8rem;font-size:.6rem;
+        letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;scroll-snap-align:start;
+        transition:border-color .3s,color .3s}
+  .chip:hover{border-color:var(--rose-dim);color:var(--bone)}
+  .chip b{font-weight:400;color:var(--ash);font-variant-numeric:tabular-nums;margin-left:.35rem}
+  .chip[aria-pressed="true"]{border-color:var(--rose);color:var(--rose)}
+  .chip.zero{opacity:.38}
+
+  .tally{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
   .tally b{font-family:var(--display);font-weight:500;font-size:.9rem;color:var(--bone);font-variant-numeric:tabular-nums}
-  .tally span{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ash)}
-  .tally button{
-    margin-left:auto;background:none;border:0;cursor:pointer;color:var(--ash);
-    font-family:var(--read);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
-    border-bottom:1px solid var(--line2);padding-bottom:2px;transition:color .3s,border-color .3s;
-  }
-  .tally button:hover{color:var(--rose);border-color:var(--rose)}
-  .tally button[hidden]{display:none}
+  .tally > span{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ash)}
+  .tally .acts{margin-left:auto;display:flex;gap:1rem}
+  .link{color:var(--ash);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+        border-bottom:1px solid var(--line2);padding-bottom:2px;transition:color .3s,border-color .3s}
+  .link:hover,.link[aria-pressed="true"]{color:var(--rose);border-color:var(--rose)}
 
   /* windowed list: only the rows in view exist in the DOM */
-  .listwrap{height:min(58vh,520px);overflow-y:auto;border-top:1px solid var(--line);position:relative;
-            scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+  .listwrap{height:min(60vh,560px);overflow-y:auto;border-top:1px solid var(--line);position:relative;
+            scrollbar-width:thin;scrollbar-color:var(--line2) transparent;overscroll-behavior:contain}
   .listwrap::-webkit-scrollbar{width:3px}
   .listwrap::-webkit-scrollbar-thumb{background:var(--line2)}
   .spacer{position:relative;width:100%}
@@ -127,33 +209,59 @@
     position:absolute;left:0;right:0;height:var(--row);
     display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:.9rem;
     border-bottom:1px solid var(--line);cursor:pointer;
-    transition:padding-left .3s;padding-left:0;
+    transition:padding-left .3s,background .3s;padding-left:0;
   }
   .ch:hover{padding-left:.55rem}
-  .ch:hover .n{color:var(--rose);text-shadow:0 0 18px rgba(181,145,240,.45)}
-  .ch.on{background:rgba(181,145,240,.06)}
+  .ch:hover .n{color:var(--rose);text-shadow:0 0 18px var(--rose-glow)}
+  .ch.on{background:var(--rose-wash)}
   .ch.on .n{color:var(--rose)}
   .ch.dead .n{color:var(--ash);text-decoration:line-through;text-decoration-color:var(--line2)}
-  .ch .logo{width:34px;height:34px;border:1px solid var(--line2);background:var(--ink2);
-            display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
-  .ch .logo img{width:100%;height:100%;object-fit:contain}
-  .ch .logo b{font-family:var(--display);font-weight:500;font-size:.8rem;color:var(--ash)}
-  .ch .n{font-family:var(--display);font-weight:500;font-size:.92rem;
-         overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .3s,text-shadow .3s}
-  .ch .g{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);white-space:nowrap}
+  .logo{width:34px;height:34px;border:1px solid var(--line2);background:var(--ink2);
+        display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
+  .logo img{width:100%;height:100%;object-fit:contain;padding:3px}
+  .logo b{font-family:var(--display);font-weight:500;font-size:.8rem;color:var(--ash)}
+  .txt{min-width:0;display:flex;flex-direction:column;line-height:1.35}
+  .n{font-family:var(--display);font-weight:500;font-size:.88rem;
+     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .3s,text-shadow .3s}
+  .s{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .side{display:flex;align-items:center;gap:.5rem}
+  .tag{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tag.geo{color:var(--rose);border:1px solid var(--rose-dim);padding:0 .35rem}
+  .star{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;color:var(--ash);opacity:.35;transition:opacity .3s,color .3s}
+  .star svg{width:14px;height:14px}
+  .star svg path{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
+  .ch:hover .star{opacity:.8}
+  .star:hover{color:var(--rose);opacity:1}
+  .star.on{color:var(--rose);opacity:1}
+  .star.on svg path{fill:currentColor}
 
-  .state{padding:2.4rem 0;text-align:center;color:var(--ash)}
-  .state .big{font-family:var(--display);font-weight:500;font-size:1rem;color:var(--bone);margin-bottom:.4rem}
-  .state .bar{height:1px;background:var(--line);overflow:hidden;margin-bottom:1.4rem;position:relative}
-  .state .bar i{position:absolute;inset:0 auto 0 0;width:30%;background:var(--rose);animation:sweep 1.9s ease-in-out infinite}
-  @keyframes sweep{0%{transform:translateX(-100%)}100%{transform:translateX(330%)}}
-  .state a{border:1px solid var(--rose-dim);padding:.6rem 1.1rem;font-size:.62rem;
-           letter-spacing:.3em;text-transform:uppercase;display:inline-block;margin-top:1rem}
-  .state a:hover{border-color:var(--rose);color:var(--rose)}
+  .empty{padding:2.6rem 1rem;text-align:center;color:var(--ash);display:flex;flex-direction:column;align-items:center;gap:.6rem}
+  .empty svg{width:44px;height:44px;color:var(--rose);opacity:.3}
+  .empty .big{font-family:var(--display);font-weight:500;font-size:.95rem;color:var(--bone)}
+  .empty p{font-size:.86rem;max-width:36ch}
+  .bar{height:1px;background:var(--line);overflow:hidden;position:relative;width:100%;margin-bottom:.8rem}
 
-  footer{border-top:1px solid var(--line);margin-top:3rem;padding:2rem var(--pad) 2rem;
-         margin-left:var(--rail);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  footer{border-top:1px solid var(--line);margin-top:3rem;padding:2rem var(--pad);
+         margin-left:var(--rail);display:flex;justify-content:space-between;gap:1rem 2rem;flex-wrap:wrap}
+  footer .links{display:flex;gap:1.4rem;flex-wrap:wrap}
 
+  .toast{position:fixed;right:1.4rem;bottom:1.4rem;z-index:80;background:var(--ink2);border:1px solid var(--rose-dim);
+         padding:.7rem 1rem;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--bone);
+         opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none}
+  .toast.show{opacity:1;transform:none}
+
+  @media(max-width:1060px){
+    /* a block, not a grid: a sticky grid item can only stick inside its own
+       cell, and the player has to stay put the whole length of the list */
+    .tv{display:block}
+    .browse{margin-top:1.6rem}
+    .stage{position:relative}
+    .stage.on{position:sticky;top:0;z-index:20;background:var(--ink);padding:.5rem 0 .2rem;margin-top:-.5rem;border-bottom:1px solid var(--line)}
+    .screen{max-width:min(100%,calc(46vh * 16 / 9));margin:0 auto}
+    .now{margin-top:.7rem;padding-top:.6rem}
+    .keys{display:none}
+    .listwrap{height:auto;max-height:none;overflow:visible}
+  }
   @media(max-width:600px){
     :root{--rail:0px}
     .rail{position:fixed;top:auto;bottom:0;left:0;right:0;width:auto;height:52px;
@@ -161,10 +269,23 @@
     .rail .spine,.rail .cph{writing-mode:horizontal-tb;letter-spacing:.3em}
     .rail .cph{display:none}
     body{padding-bottom:52px}
+    .nav{gap:1.05rem;padding:1.1rem 0 1.6rem}
+    .nav a{letter-spacing:.16em}
+    .sec-head{margin-bottom:1.4rem;gap:.9rem}
+    .sec-head .label{margin-left:0;flex-basis:100%;font-size:.58rem;letter-spacing:.24em}
+    .now{gap:.75rem}
+    .now .logo{display:none}
+    .now{grid-template-columns:minmax(0,1fr) auto}
+    .tools .ib{width:34px;height:34px}
+    .qsel,#pip{display:none}
+    .search kbd{display:none}
+    .two{grid-template-columns:1fr 1fr;gap:.5rem}
+    select{font-size:.82rem;padding:.7rem .8rem;padding-right:2rem}
+    .toast{left:1rem;right:1rem;bottom:64px;text-align:center}
   }
   @media(prefers-reduced-motion:reduce){
-    .livedot i,.state .bar i{animation:none}
-    .ch{transition:none}
+    .livedot i,.buf i,.bar i{animation:none}
+    .ch,.osd,.toast{transition:none}
   }
 </style>
 </head>
@@ -189,280 +310,831 @@
   <div class="sec-head">
     <span class="idx">05</span>
     <h1>Television</h1>
-    <span class="label" id="headcount" style="margin-left:auto"></span>
+    <span class="label" id="headcount">Free to air</span>
   </div>
 
   <div class="tv">
-    <section>
-      <div class="screen">
+    <section class="stage" aria-label="Player">
+      <div class="screen" id="screen">
         <video id="video" class="hide" controls playsinline></video>
-        <div class="idle" id="idle">
+
+        <div class="overlay idle" id="idle">
           <svg viewBox="0 0 200 190" aria-hidden="true"><path d="M100 22 L176 168 L24 168 Z"></path></svg>
+          <span class="hint" id="idlehint">Pick a channel</span>
+          <button class="btn" id="resume" type="button" hidden></button>
         </div>
+
+        <div class="overlay err" id="err" hidden role="alert">
+          <div class="row">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5 h16 v11 h-16 z M9 20 h6 M12 16 v4"></path><path d="M6 7 L18 15"></path></svg>
+            <div>
+              <div class="k" id="errk">Stream will not open</div>
+              <div class="t" id="errt"></div>
+              <p id="errp"></p>
+              <div class="acts">
+                <button class="btn" id="retry" type="button">Try again</button>
+                <button class="btn ghost" id="nextin" type="button"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay tap" id="tap" hidden>
+          <button class="btn" id="tapbtn" type="button"></button>
+        </div>
+
         <div class="livedot" id="livedot" hidden><i></i><span>Live</span></div>
+        <div class="osd" id="osd" aria-hidden="true"></div>
+        <div class="buf" id="buf" hidden><i></i></div>
       </div>
+
       <div class="now">
-        <span class="t" id="nowname">Nothing playing</span>
-        <span class="m" id="nowmeta"></span>
-        <span class="r" id="nowres"></span>
+        <span class="logo" id="nowlogo" aria-hidden="true"><b>∆</b></span>
+        <div style="min-width:0">
+          <div class="t off" id="nowname">Nothing playing</div>
+          <div class="m" id="nowmeta">Free-to-air · public streams</div>
+        </div>
+        <div class="tools">
+          <select class="qsel" id="quality" aria-label="Picture quality" hidden></select>
+          <button class="ib" id="prev" type="button" aria-label="Previous channel" title="Previous channel (↑)">
+            <svg viewBox="0 0 24 24"><path d="M15 6 L9 12 L15 18"/></svg></button>
+          <button class="ib" id="next" type="button" aria-label="Next channel" title="Next channel (↓)">
+            <svg viewBox="0 0 24 24"><path d="M9 6 L15 12 L9 18"/></svg></button>
+          <button class="ib" id="fav" type="button" aria-label="Save channel" aria-pressed="false" title="Save (S)" disabled>
+            <svg viewBox="0 0 24 24"><path class="fill" d="M12 3.6 L14.6 9 L20.4 9.7 L16.1 13.7 L17.2 19.5 L12 16.7 L6.8 19.5 L7.9 13.7 L3.6 9.7 L9.4 9 Z"/></svg></button>
+          <button class="ib" id="share" type="button" aria-label="Copy a link to this channel" title="Share" disabled>
+            <svg viewBox="0 0 24 24"><path d="M10 14 L20 4 M14 4 h6 v6 M18 14 v5 h-14 v-14 h5"/></svg></button>
+          <button class="ib" id="pip" type="button" aria-label="Picture in picture" title="Picture in picture (P)" hidden disabled>
+            <svg viewBox="0 0 24 24"><path d="M3 5 h18 v14 h-18 z M12 12 h7 v5 h-7 z"/></svg></button>
+          <button class="ib" id="full" type="button" aria-label="Full screen" title="Full screen (F)" disabled>
+            <svg viewBox="0 0 24 24"><path d="M4 9 V4 h5 M15 4 h5 v5 M20 15 v5 h-5 M9 20 H4 v-5"/></svg></button>
+        </div>
       </div>
-      <div id="playstate" class="state" hidden></div>
+      <div class="keys" aria-hidden="true">
+        <span><kbd>/</kbd>Search</span><span><kbd>↑</kbd><kbd>↓</kbd>Zap</span><span><kbd>R</kbd>Random</span>
+        <span><kbd>S</kbd>Save</span><span><kbd>F</kbd>Full screen</span><span><kbd>M</kbd>Mute</span>
+      </div>
     </section>
 
-    <section>
-      <div class="filters">
-        <input id="q" type="search" placeholder="Search channels" autocomplete="off" aria-label="Search channels">
-        <div class="two">
-          <select id="genre" aria-label="Filter by genre"><option value="">All genres</option></select>
-          <select id="region" aria-label="Filter by country"><option value="">All countries</option></select>
-        </div>
+    <section class="browse" aria-label="Channels">
+      <div class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16 L21 21"/></svg>
+        <input id="q" type="search" placeholder="Search channels" autocomplete="off" spellcheck="false" aria-label="Search channels, countries and languages">
+        <kbd aria-hidden="true">/</kbd>
       </div>
-      <div class="tally">
+      <div class="chips" id="chips" role="group" aria-label="Genre"></div>
+      <div class="two">
+        <select id="country" aria-label="Filter by region or country"><option value="">Every country</option></select>
+        <select id="lang" aria-label="Filter by language"><option value="">Every language</option></select>
+      </div>
+      <div class="tally" aria-live="polite">
         <b id="tallyn">—</b><span id="tallyw">channels</span>
-        <button id="clear" type="button" hidden>Clear filters</button>
+        <span class="acts">
+          <button class="link" id="geo" type="button" aria-pressed="false" title="Hide channels that only play inside their home country">Hide geo-locked</button>
+          <button class="link" id="shuffle" type="button" title="Play something at random from this list (R)">Shuffle</button>
+          <button class="link" id="clear" type="button" hidden>Clear</button>
+        </span>
       </div>
-      <div class="listwrap" id="listwrap">
+      <div class="listwrap" id="listwrap" role="listbox" aria-label="Channel list" tabindex="-1">
         <div class="spacer" id="spacer"></div>
       </div>
-      <div id="liststate" class="state"><div class="bar"><i></i></div><div class="big">Fetching the channel list</div><div>Refreshed on its own every twelve hours.</div></div>
+      <div id="liststate" class="empty">
+        <div class="bar"><i></i></div>
+        <div class="big">Fetching the channel list</div>
+        <p>Every stream in it was tested in the last twelve hours.</p>
+      </div>
     </section>
   </div>
 </main>
 
 <footer>
   <span class="label">MOLL∆ — Television</span>
-  <span class="label">Free-to-air · public streams</span>
+  <span class="links">
+    <a class="label" href="https://raw.githubusercontent.com/gemineja/molle-iptv/main/playlist-all.m3u8" title="Everything, unfiltered — for VLC, Kodi or TiviMate">M3U for VLC</a>
+    <a class="label" href="https://github.com/gemineja/molle-iptv" rel="noopener">Source</a>
+    <span class="label">Free-to-air · public streams</span>
+  </span>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.7.3/dist/hls.min.js"
+        integrity="sha384-cciJ0zi8d1uMKC2zJd7jvPY4HQt7W4ByUI/FlMkltvBi31aW61rcpVBhpmW8/NwX"
+        crossorigin="anonymous"></script>
 <script>
 /* ============================================================
-   Channels from the molle-iptv playlist, browsable by genre and
-   by country. Two things the flat list could not do: 12,250 rows
-   are windowed, so only what you can see exists in the DOM; and
-   the country comes out of tvg-id, which nothing used before.
+   MOLL∆ Television — the molle-iptv playlist as a TV.
+
+   The list is the repo's browser-verified playlist.m3u8: every
+   stream in it answered over https with open CORS when it was
+   last tested. What this page adds on top is the part a person
+   touches: genres you can enter, a country and language to
+   narrow by, saved channels and recent ones, zapping with the
+   arrow keys, a link you can share, and an honest answer when
+   a free stream has gone dark.
    ============================================================ */
-var PLAYLIST = 'https://raw.githubusercontent.com/gemineja/molle-iptv/main/playlist.m3u8';
-var COUNTRY  = {"ad":"Andorra","ae":"UAE","af":"Afghanistan","ag":"Antigua and Barbuda","al":"Albania","am":"Armenia","ao":"Angola","ar":"Argentina","at":"Austria","au":"Australia","aw":"Aruba","az":"Azerbaijan","ba":"Bosnia and Herzegovina","bb":"Barbados","bd":"Bangladesh","be":"Belgium","bf":"Burkina Faso","bg":"Bulgaria","bh":"Bahrain","bj":"Benin","bn":"Brunei Darussalam","bo":"Bolivia","bq":"Bonaire, Sint Eustatius and Saba","br":"Brazil","bs":"Bahamas","by":"Belarus","bz":"Belize","ca":"Canada","cd":"Democratic Republic of the Congo","cg":"Republic of the Congo","ch":"Switzerland","ci":"Cote d'Ivoire","cl":"Chile","cm":"Cameroon","cn":"People's Republic of China","co":"Colombia","cr":"Costa Rica","cu":"Cuba","cv":"Cape Verde","cw":"Curaçao","cy":"Cyprus","cz":"Czechia","de":"Germany","dk":"Denmark","do":"Dominican Rep.","dz":"Algeria","ec":"Ecuador","ee":"Estonia","eg":"Egypt","eh":"Western Sahara","er":"Eritrea","es":"Spain","et":"Ethiopia","fi":"Finland","fo":"Faroe Islands","fr":"France","ge":"Georgia","gf":"French Guiana","gh":"Ghana","gm":"Republic of The Gambia","gn":"Guinea","gp":"Guadeloupe","gq":"Equatorial Guinea","gr":"Greece","gt":"Guatemala","gu":"Guam","gy":"Guyana","hk":"Hong Kong","hn":"Honduras","hr":"Croatia","ht":"Haiti","hu":"Hungary","id":"Indonesia","ie":"Ireland","il":"Israel","in":"India","iq":"Iraq","ir":"Iran","is":"Iceland","it":"Italy","jm":"Jamaica","jo":"Jordan","jp":"Japan","ke":"Kenya","kg":"Kyrgyzstan","kh":"Cambodia","kn":"Saint Kitts and Nevis","kp":"North Korea","kr":"South Korea","kw":"Kuwait","kz":"Kazakhstan","la":"Laos","lb":"Lebanon","lc":"Saint Lucia","lk":"Sri Lanka","lt":"Lithuania","lu":"Luxembourg","lv":"Latvia","ly":"Libya","ma":"Morocco","mc":"Monaco","md":"Moldova","me":"Montenegro","mk":"North Macedonia","ml":"Mali","mm":"Myanmar","mn":"Mongolia","mo":"Macao","mq":"Martinique","mt":"Malta","mv":"Maldives","mx":"Mexico","my":"Malaysia","mz":"Mozambique","na":"Namibia","ne":"Niger","ng":"Nigeria","ni":"Nicaragua","nl":"Netherlands","no":"Norway","np":"Nepal","nz":"New Zealand","om":"Oman","pa":"Panama","pe":"Peru","pf":"French Polynesia","pg":"Papua New Guinea","ph":"Philippines","pk":"Pakistan","pl":"Poland","pr":"Puerto Rico","ps":"State of Palestine","pt":"Portugal","py":"Paraguay","qa":"Qatar","ro":"Romania","rs":"Serbia","ru":"Russia","rw":"Rwanda","sa":"Saudi Arabia","sd":"Sudan","se":"Sweden","sg":"Singapore","si":"Slovenia","sk":"Slovakia","sl":"Sierra Leone","sm":"San Marino","sn":"Senegal","so":"Somalia","sr":"Suriname","sv":"El Salvador","sx":"Sint Maarten (Dutch part)","sy":"Syria","td":"Chad","tg":"Togo","th":"Thailand","tj":"Tajikistan","tm":"Turkmenistan","tn":"Tunisia","tr":"Türkiye","tt":"Trinidad and Tobago","tw":"Taiwan","tz":"Tanzania","ua":"Ukraine","ug":"Uganda","uk":"United Kingdom","us":"United States","uy":"Uruguay","uz":"Uzbekistan","vc":"Saint Vincent and the Grenadines","ve":"Venezuela","vg":"Virgin Islands, British","vn":"Vietnam","ws":"Samoa","xk":"Kosovo","ye":"Yemen","za":"South Africa","zw":"Zimbabwe"};
-var ROW = 58;
+'use strict';
 
-var video = document.getElementById('video');
-var idle = document.getElementById('idle');
-var livedot = document.getElementById('livedot');
-var wrap = document.getElementById('listwrap');
-var spacer = document.getElementById('spacer');
-var qEl = document.getElementById('q');
-var genreEl = document.getElementById('genre');
-var regionEl = document.getElementById('region');
-var listState = document.getElementById('liststate');
-var playState = document.getElementById('playstate');
-var clearBtn = document.getElementById('clear');
+const REPO     = 'gemineja/molle-iptv';
+const PLAYLIST = 'https://raw.githubusercontent.com/' + REPO + '/main/playlist.m3u8';
+const COMMITS  = 'https://api.github.com/repos/' + REPO + '/commits?path=playlist.m3u8&per_page=1';
+const CACHE    = 'molle-tv-v1';
+const REGIONS  = ['Europe', 'Americas', 'Asia', 'Africa', 'Oceania'];
+const START_TIMEOUT = 20000;   // ms a stream gets to show a picture
+const RECENT_MAX = 24;
 
-var ALL = [], view = [], current = null, hls = null, rendered = {};
+const $ = id => document.getElementById(id);
+const video = $('video'), screenEl = $('screen'), wrap = $('listwrap'), spacer = $('spacer');
+const qEl = $('q'), countryEl = $('country'), langEl = $('lang'), chipsEl = $('chips');
+const listState = $('liststate');
 
-/* ---- parsing -------------------------------------------------------------
-   The title is whatever follows the LAST comma that is not inside an
-   attribute value — http-user-agent strings contain commas of their own,
-   which is what broke 46 titles when splitting on the first one. */
-var ATTR = /\s[\w-]+="[^"]*"/g;
+let ALL = [], BYID = new Map(), view = [], current = null;
+let hls = null, attempt = 0, watchdog = 0, playing = false, mediaRecoveries = 0;
+let genre = '', hideGeo = false, rendered = new Map(), ROW = 60;
+
+/* ---- small persistence, all of it optional --------------------------- */
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('molle.tv.' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v){ try { localStorage.setItem('molle.tv.' + k, JSON.stringify(v)); } catch (e) {} }
+};
+let favs = new Set(store.get('fav', []));
+let recent = store.get('recent', []);
+hideGeo = store.get('hideGeo', false);
+
+/* ---- parsing ------------------------------------------------------------
+   The title is whatever follows the first comma *outside* an attribute:
+   http-user-agent strings carry commas of their own. Decorations such as
+   "(1080p)", "[Not 24/7]" or "Ⓖ" are lifted out of the name and shown as
+   tags instead, so the list reads as channel names. */
+const ATTR = /\s[\w-]+="[^"]*"/g;
+const fold = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const attr = (line, k) => { const m = line.match(new RegExp(k + '="([^"]*)"')); return m ? m[1] : ''; };
+
 function parse(text){
-  var lines = text.split('\n'), out = [];
-  for (var i = 0; i < lines.length; i++){
-    var meta = lines[i];
-    if (meta.indexOf('#EXTINF') !== 0) continue;
-    var head = meta.slice(meta.indexOf(':') + 1);
-    var bare = head.replace(ATTR, '');
-    var comma = bare.indexOf(',');
-    var name = comma >= 0 ? bare.slice(comma + 1).trim() : '';
-    if (!name) continue;
+  const lines = text.split('\n'), out = [], seen = new Map();
+  for (let i = 0; i < lines.length; i++){
+    const meta = lines[i];
+    if (!meta.startsWith('#EXTINF')) continue;
+    const bare = meta.slice(meta.indexOf(':') + 1).replace(ATTR, '');
+    const comma = bare.indexOf(',');
+    const raw = comma >= 0 ? bare.slice(comma + 1).trim() : '';
+    if (!raw) continue;
 
-    var logo  = (meta.match(/tvg-logo="([^"]*)"/) || [])[1] || '';
-    var group = (meta.match(/group-title="([^"]*)"/) || [])[1] || '';
-    var id    = (meta.match(/tvg-id="([^"]*)"/) || [])[1] || '';
-    var m     = id.match(/\.([a-z]{2})(?:@|$)/);
-    var cc    = m ? m[1] : '';
-
-    var url = '';
-    for (var j = i + 1; j < lines.length; j++){
-      var l = lines[j].trim();
-      if (l && l.charAt(0) !== '#'){ url = l; break; }
+    let url = '';
+    for (let j = i + 1; j < lines.length; j++){
+      const l = lines[j].trim();
+      if (l && l[0] !== '#'){ url = l; break; }
     }
-    if (!url || url.indexOf('http') !== 0) continue;
+    if (!url.startsWith('https://')) continue;
 
-    /* the resolution the source already states, e.g. "A Spor (1080p)" */
-    var res = (name.match(/\((\d{3,4}[pi])\)/) || [])[1] || '';
+    const res = (raw.match(/\((\d{3,4}[pi])\)/) || [])[1] || '';
+    const name = raw.replace(/\(\d{3,4}[pi]\)|\[[^\]]*\]|[ⒼⓈ]/g, '').replace(/\s{2,}/g, ' ').trim() || raw;
+    const geo = attr(meta, 'tvg-geo') === 'restricted' || /\[Geo-blocked\]|Ⓖ/.test(raw);
+    const country = attr(meta, 'tvg-country'), language = attr(meta, 'tvg-language');
+    const group = attr(meta, 'group-title') || 'General';
+
+    /* a stable id for links and saved channels: tvg-id where there is one */
+    let id = attr(meta, 'tvg-id') || 'n:' + fold(name).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const n = seen.get(id) || 0;
+    seen.set(id, n + 1);
+    if (n) id += '~' + (n + 1);
+
     out.push({
-      name: name, logo: logo, url: url, cc: cc,
-      group: group && group !== 'Undefined' ? group : 'Ungrouped',
-      country: cc ? (COUNTRY[cc] || cc.toUpperCase()) : '',
-      res: res, dead: false,
-      key: (name + ' ' + group + ' ' + (cc ? COUNTRY[cc] || '' : '')).toLowerCase()
+      id, name, url, res, geo, group, country, language,
+      region: attr(meta, 'tvg-region'),
+      logo: attr(meta, 'tvg-logo'),
+      part: /\[Not 24\/7\]/.test(raw),
+      key: fold([name, group, country, language].join(' ')),
+      dead: false
     });
   }
   return out;
 }
 
-/* ---- filtering ---- */
-function applyFilters(){
-  var q = qEl.value.trim().toLowerCase();
-  var g = genreEl.value, r = regionEl.value;
-  view = ALL.filter(function(c){
-    if (g && c.group !== g) return false;
-    if (r && c.cc !== r) return false;
-    if (q && c.key.indexOf(q) < 0) return false;
-    return true;
-  });
-  clearBtn.hidden = !(q || g || r);
-  document.getElementById('tallyn').textContent = view.length.toLocaleString('en');
-  document.getElementById('tallyw').textContent = view.length === 1 ? 'channel' : 'channels';
+/* ---- filtering --------------------------------------------------------- */
+function baseMatch(c, terms, co, lg){
+  if (hideGeo && c.geo) return false;
+  if (co){
+    if (co.startsWith('r:') ? c.region !== co.slice(2) : c.country !== co) return false;
+  }
+  if (lg && c.language !== lg) return false;
+  for (const t of terms) if (!c.key.includes(t)) return false;
+  return true;
+}
+
+const searchTerms = () => fold(qEl.value.trim()).split(/\s+/).filter(Boolean);
+/* everything the search, country, language and geo filters let through —
+   the genre chips then count and cut within this */
+function baseList(){
+  const terms = searchTerms(), co = countryEl.value, lg = langEl.value;
+  return ALL.filter(c => baseMatch(c, terms, co, lg));
+}
+
+function applyFilters(keepScroll){
+  const terms = searchTerms();
+  const co = countryEl.value, lg = langEl.value;
+  const base = baseList();
+
+  if (genre === '@fav') view = base.filter(c => favs.has(c.id));
+  else if (genre === '@recent'){
+    const rank = new Map(recent.map((id, i) => [id, i]));
+    view = base.filter(c => rank.has(c.id)).sort((a, b) => rank.get(a.id) - rank.get(b.id));
+  }
+  else view = genre ? base.filter(c => c.group === genre) : base;
+
+  renderChips(base);
+  countryEl.classList.toggle('set', !!co);
+  langEl.classList.toggle('set', !!lg);
+  $('clear').hidden = !(terms.length || co || lg || genre);
+  $('geo').setAttribute('aria-pressed', String(hideGeo));
+  $('tallyn').textContent = view.length.toLocaleString('en');
+  $('tallyw').textContent = view.length === 1 ? 'channel' : 'channels';
+  syncHash();
+
   spacer.style.height = (view.length * ROW) + 'px';
-  rendered = {};
-  spacer.innerHTML = '';
-  wrap.scrollTop = 0;
+  rendered.forEach(el => el.remove());
+  rendered.clear();
+  if (!keepScroll) wrap.scrollTop = 0;
+
   if (!view.length){
     listState.hidden = false;
-    listState.innerHTML = '<div class="big">No channel matches that</div>' +
-      '<div>Try a broader word, or widen the genre and country.</div>';
+    listState.innerHTML = emptyMessage(terms.length);
   } else {
     listState.hidden = true;
     paint();
   }
 }
 
-/* ---- windowed rendering: build only the rows on screen ---- */
-function paint(){
-  var top = wrap.scrollTop, h = wrap.clientHeight;
-  var first = Math.max(0, Math.floor(top / ROW) - 4);
-  var last  = Math.min(view.length - 1, Math.ceil((top + h) / ROW) + 4);
-  var keep = {};
-  for (var i = first; i <= last; i++){
-    keep[i] = true;
-    if (rendered[i]) continue;
-    var c = view[i];
-    var row = document.createElement('div');
-    row.className = 'ch' + (c === current ? ' on' : '') + (c.dead ? ' dead' : '');
-    row.style.top = (i * ROW) + 'px';
-    var mono = (c.name.replace(/[^A-Za-z0-9]/g, '')[0] || '·').toUpperCase();
-    var badge = c.logo
-      ? '<span class="logo"><img src="' + esc(c.logo) + '" alt="" loading="lazy" ' +
-        'onerror="this.parentNode.innerHTML=\'<b>' + mono + '</b>\'"></span>'
-      : '<span class="logo"><b>' + mono + '</b></span>';
-    row.innerHTML = badge +
-      '<span class="n"></span>' +
-      '<span class="g">' + esc(c.country || c.group) + '</span>';
-    row.querySelector('.n').textContent = c.name;
-    row.addEventListener('click', function(ch, el){
-      return function(){ play(ch, el); };
-    }(c, row));
-    spacer.appendChild(row);
-    rendered[i] = row;
-  }
-  for (var k in rendered){
-    if (!keep[k]){ rendered[k].remove(); delete rendered[k]; }
-  }
+function emptyMessage(searching){
+  const tri = '<svg viewBox="0 0 200 190" aria-hidden="true"><path d="M100 22 L176 168 L24 168 Z"></path></svg>';
+  if (genre === '@fav' && !searching)
+    return tri + '<div class="big">Nothing saved yet</div><p>Tap the star on any channel and it waits for you here, on this device.</p>';
+  if (genre === '@recent' && !searching)
+    return tri + '<div class="big">Nothing watched yet</div><p>Channels you open show up here, newest first.</p>';
+  const inside = genre && genre[0] !== '@' ? ' — you are searching inside ' + esc(genre) + ' right now' : '';
+  return tri + '<div class="big">No channel called that</div><p>Try a broader word, or widen the filters' + inside + '.</p>';
 }
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 
-/* ---- playback ---- */
-function play(c, el){
-  current = c;
-  playState.hidden = true;
-  document.querySelectorAll('.ch.on').forEach(function(n){ n.classList.remove('on'); });
-  if (el) el.classList.add('on');
-  document.getElementById('nowname').textContent = c.name;
-  document.getElementById('nowmeta').textContent =
-    [c.group, c.country].filter(Boolean).join(' · ');
-  document.getElementById('nowres').textContent = c.res;
+/* ---- chips: genres you can enter, with live counts --------------------- */
+function renderChips(base){
+  const counts = new Map();
+  base.forEach(c => counts.set(c.group, (counts.get(c.group) || 0) + 1));
+  const groups = [...new Set(ALL.map(c => c.group))]
+    .sort((a, b) => (counts.get(b) || 0) - (counts.get(a) || 0) || a.localeCompare(b));
+  const inBase = new Set(base);
+  const favN = base.filter(c => favs.has(c.id)).length;
+  const recN = recent.filter(id => inBase.has(BYID.get(id))).length;
+  const chip = (v, label, n) =>
+    '<button class="chip' + (n ? '' : ' zero') + '" type="button" data-g="' + esc(v) + '" aria-pressed="' + (genre === v) + '">' +
+    esc(label) + '<b>' + n.toLocaleString('en') + '</b></button>';
+  chipsEl.innerHTML =
+    chip('', 'All', base.length) +
+    chip('@fav', '★ Saved', favN) +
+    chip('@recent', 'Recent', recN) +
+    groups.map(g => chip(g, g, counts.get(g) || 0)).join('');
+  chipEdge();
+}
 
-  if (hls){ hls.destroy(); hls = null; }
-  video.classList.remove('hide');
-  idle.hidden = true;
-  livedot.hidden = false;
+/* ---- windowed rendering: build only the rows on screen ----------------- */
+const STAR = '<svg viewBox="0 0 24 24"><path d="M12 3.6 L14.6 9 L20.4 9.7 L16.1 13.7 L17.2 19.5 L12 16.7 L6.8 19.5 L7.9 13.7 L3.6 9.7 L9.4 9 Z"/></svg>';
+const mono = c => (c.name.replace(/[^\p{L}\p{N}]/gu, '')[0] || '∆').toUpperCase();
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const logoHtml = c => c.logo
+  ? '<img src="' + esc(c.logo) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-mono="' + esc(mono(c)) + '">'
+  : '<b>' + esc(mono(c)) + '</b>';
 
-  function failed(why){
-    c.dead = true;
-    if (el) el.classList.add('dead');
-    livedot.hidden = true;
-    video.classList.add('hide');
-    idle.hidden = false;
-    playState.hidden = false;
-    playState.innerHTML = '<div class="big">' + esc(c.name) + ' is not answering</div>' +
-      '<div>Public streams come and go' + (why ? ' — ' + esc(why) : '') +
-      '. It stays in the list and is tried again next time.</div>';
+function rowHtml(c){
+  const sub = [genre && genre[0] !== '@' ? '' : c.group, c.country, c.language].filter(Boolean).join(' · ');
+  return '<span class="logo">' + logoHtml(c) + '</span>' +
+    '<span class="txt"><span class="n">' + esc(c.name) + '</span><span class="s">' + esc(sub) + '</span></span>' +
+    '<span class="side">' +
+      (c.geo ? '<span class="tag geo" title="May only play inside ' + esc(c.country || 'its home country') + '">Geo</span>' : '') +
+      (c.part ? '<span class="tag" title="Not on air around the clock">Part-time</span>' : (c.res ? '<span class="tag">' + esc(c.res) + '</span>' : '')) +
+      '<button class="star' + (favs.has(c.id) ? ' on' : '') + '" type="button" data-star aria-label="' +
+        (favs.has(c.id) ? 'Remove from saved' : 'Save') + '">' + STAR + '</button>' +
+    '</span>';
+}
+
+/* On a wide screen the list scrolls inside its own box; on a phone the
+   page itself scrolls under a sticky player. Either way, work out which
+   slice of the list is in view and build only that. */
+const ownScroll = () => wrap.scrollHeight > wrap.clientHeight + 1;
+function paint(){
+  let offset, height;
+  if (ownScroll()){ offset = wrap.scrollTop; height = wrap.clientHeight; }
+  else { offset = Math.max(0, -spacer.getBoundingClientRect().top); height = innerHeight; }
+  const first = Math.max(0, Math.floor(offset / ROW) - 6);
+  const last  = Math.min(view.length - 1, Math.ceil((offset + height) / ROW) + 6);
+  const keep = new Set();
+  for (let i = first; i <= last; i++){
+    const c = view[i];
+    keep.add(c);
+    let row = rendered.get(c);
+    if (!row){
+      row = document.createElement('div');
+      row.className = 'ch';
+      row.setAttribute('role', 'option');
+      row.dataset.id = c.id;
+      row.innerHTML = rowHtml(c);
+      spacer.appendChild(row);
+      rendered.set(c, row);
+    }
+    row.style.top = (i * ROW) + 'px';
+    row.classList.toggle('on', c === current);
+    row.classList.toggle('dead', c.dead);
+    row.setAttribute('aria-selected', String(c === current));
   }
+  rendered.forEach((row, c) => { if (!keep.has(c)){ row.remove(); rendered.delete(c); } });
+}
+
+function refreshRow(c){
+  const row = rendered.get(c);
+  if (row) row.innerHTML = rowHtml(c);
+}
+
+function reveal(c){
+  const i = view.indexOf(c);
+  if (i < 0) return;
+  if (ownScroll()){
+    const y = i * ROW;
+    if (y < wrap.scrollTop || y + ROW > wrap.scrollTop + wrap.clientHeight)
+      wrap.scrollTop = y - wrap.clientHeight / 2 + ROW / 2;
+  }
+  paint();
+}
+
+/* ---- playback ------------------------------------------------------------ */
+function teardown(){
+  clearTimeout(watchdog);
+  if (hls){ hls.destroy(); hls = null; }
+  video.removeAttribute('src');
+  video.load();
+  playing = false;
+}
+
+function setScreen(state){
+  $('idle').hidden = state !== 'idle';
+  $('err').hidden = state !== 'error';
+  $('buf').hidden = state !== 'loading';
+  $('livedot').hidden = state !== 'live';
+  if (state !== 'live' && state !== 'loading') $('tap').hidden = true;
+  video.classList.toggle('hide', state === 'idle' || state === 'error');
+}
+
+function play(c, how){
+  how = how || {};
+  current = c;
+  const mine = ++attempt;
+  mediaRecoveries = 0;
+  teardown();
+  setScreen('loading');
+  updateNow();
+  paint();
+  if (how.osd) osd(c, how.osd);
+
+  watchdog = setTimeout(() => {
+    if (mine === attempt && !playing) fail(c, 'It did not send a picture within ' + START_TIMEOUT / 1000 + ' seconds.');
+  }, START_TIMEOUT);
 
   if (window.Hls && Hls.isSupported()){
-    hls = new Hls({ manifestLoadingTimeOut: 12000, manifestLoadingMaxRetry: 1 });
+    hls = new Hls({
+      capLevelToPlayerSize: true,
+      maxBufferLength: 20,
+      backBufferLength: 30,
+      manifestLoadingTimeOut: 10000, manifestLoadingMaxRetry: 1,
+      levelLoadingTimeOut: 10000, fragLoadingTimeOut: 15000
+    });
+    hls.on(Hls.Events.MANIFEST_PARSED, (_, d) => {
+      if (mine !== attempt) return;
+      buildQuality(d.levels);
+      if (video.paused) start(c, mine);
+    });
+    hls.on(Hls.Events.LEVEL_SWITCHED, (_, d) => {
+      const l = hls && hls.levels[d.level];
+      if (l && l.height) setRes(l.height + 'p');
+    });
+    hls.on(Hls.Events.ERROR, (_, d) => {
+      if (mine !== attempt || !d.fatal) return;
+      if (d.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRecoveries < 2){
+        mediaRecoveries++;
+        if (mediaRecoveries === 2) hls.swapAudioCodec();
+        hls.recoverMediaError();
+        return;
+      }
+      const code = d.response && d.response.code;
+      if (code === 401 || code === 403 || code === 451) return fail(c, null, true);
+      fail(c, d.type === Hls.ErrorTypes.NETWORK_ERROR
+        ? 'The server stopped answering' + (code ? ' (' + code + ')' : '') + '.'
+        : 'The picture could not be decoded in this browser.');
+    });
     hls.loadSource(c.url);
     hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, function(){ video.play().catch(function(){}); });
-    hls.on(Hls.Events.ERROR, function(_, d){ if (d.fatal) failed(d.type); });
+    /* asked for inside the click, so Safari still counts it as the
+       visitor's own gesture by the time the manifest arrives */
+    start(c, mine);
   } else if (video.canPlayType('application/vnd.apple.mpegurl')){
+    buildQuality([]);
     video.src = c.url;
-    video.play().catch(function(){});
-    video.onerror = function(){ failed(''); };
+    start(c, mine);
   } else {
-    failed('this browser cannot play HLS');
+    fail(c, window.Hls ? 'This browser cannot play live HLS streams.'
+                       : 'The player did not load, and this browser cannot play HLS on its own.');
   }
 }
 
-/* ---- boot ---- */
-function fillSelect(el, pairs, label){
-  var f = document.createDocumentFragment();
-  pairs.forEach(function(p){
-    var o = document.createElement('option');
-    o.value = p[0];
-    o.textContent = p[1] + ' · ' + p[2].toLocaleString('en');
-    f.appendChild(o);
+function start(c, mine){
+  video.play().catch(err => {
+    if (mine !== attempt || err.name !== 'NotAllowedError') return;
+    /* the browser wants a gesture before sound — play muted, offer sound */
+    video.muted = true;
+    video.play().then(() => offerTap('Tap for sound', () => { video.muted = false; }))
+      .catch(() => offerTap('Tap to play', () => video.play().catch(() => {})));
   });
-  el.appendChild(f);
 }
 
-fetch(PLAYLIST).then(function(r){
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  return r.text();
-}).then(function(text){
-  ALL = parse(text);
-  if (!ALL.length) throw new Error('the playlist held no channels');
-  /* alphabetical, and numeric-aware so "2GB" sorts before "13 Kids" */
-  var coll = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-  ALL.sort(function(a, b){ return coll.compare(a.name, b.name); });
+function offerTap(label, then){
+  $('tapbtn').textContent = label;
+  $('tapbtn').onclick = () => { $('tap').hidden = true; then(); };
+  $('tap').hidden = false;
+}
 
-  var byG = {}, byC = {};
-  ALL.forEach(function(c){
-    byG[c.group] = (byG[c.group] || 0) + 1;
-    if (c.cc) byC[c.cc] = (byC[c.cc] || 0) + 1;
+video.addEventListener('playing', () => {
+  if (!current) return;
+  clearTimeout(watchdog);
+  playing = true;
+  setScreen('live');
+  if (!$('tap').hidden && !video.muted) $('tap').hidden = true;
+  current.dead = false;
+  remember(current);
+  paint();
+});
+video.addEventListener('waiting', () => { if (playing) $('buf').hidden = false; });
+video.addEventListener('canplay', () => { if (playing) $('buf').hidden = true; });
+video.addEventListener('resize', () => { if (video.videoHeight && !hls) setRes(video.videoHeight + 'p'); });
+video.addEventListener('error', () => { if (current && !hls && video.getAttribute('src')) fail(current, 'The stream would not open.'); });
+video.addEventListener('volumechange', () => store.set('vol', { v: video.volume, m: video.muted }));
+(() => { const v = store.get('vol', null); if (v){ video.volume = v.v; video.muted = !!v.m; } })();
+
+function fail(c, why, geoRefused){
+  /* compared by id: a quiet list refresh replaces the objects mid-play */
+  if (!current || c.id !== current.id) return;
+  c = current;
+  teardown();
+  c.dead = true;
+  paint();
+  setScreen('error');
+  const geo = geoRefused || c.geo;
+  $('errk').textContent = geo ? 'Locked to its home country' : 'Stream will not open';
+  $('errt').innerHTML = esc(c.name) + ' <small>' + (geo ? 'may only play inside ' + esc(c.country || 'its home country') : 'is off air') + '</small>';
+  $('errp').textContent = geo
+    ? 'The broadcaster only answers viewers in ' + (c.country || 'its own country') + '. From there it plays; from here it may not.'
+    : (why ? why + ' ' : '') + 'Public streams come and go. The channel stays in the list and is tried again the next time you pick it.';
+  const nxt = neighbour(c, 1, true);
+  $('nextin').hidden = !nxt;
+  $('nextin').textContent = 'Next in ' + c.group;
+  $('nextin').onclick = () => nxt && (play(nxt, { osd: 'Next in ' + c.group }), reveal(nxt));
+  document.title = c.name + ' — off air · MOLL∆ Television';
+}
+$('retry').addEventListener('click', () => current && play(current));
+
+/* the next channel after c — within the current list, or within its genre */
+function neighbour(c, dir, sameGenre){
+  const list = sameGenre ? ALL.filter(x => x.group === c.group && !(hideGeo && x.geo)) : view;
+  if (!list.length) return null;
+  const i = list.indexOf(c), n = list.length;
+  if (i < 0) return list[dir > 0 ? 0 : n - 1];
+  for (let step = 1; step < n; step++){
+    const x = list[((i + dir * step) % n + n) % n];
+    if (!x.dead) return x;
+  }
+  return null;
+}
+
+function zap(dir){
+  if (!view.length) return;
+  const c = current ? neighbour(current, dir, false) : view[0];
+  if (c){ play(c, { osd: dir > 0 ? '↓' : '↑' }); reveal(c); }
+}
+
+function shuffle(){
+  const pool = view.filter(c => !c.dead && c !== current);
+  if (!pool.length) return;
+  const c = pool[Math.floor(Math.random() * pool.length)];
+  play(c, { osd: 'Shuffle' });
+  reveal(c);
+}
+
+/* ---- now playing, quality, media keys --------------------------------- */
+function updateNow(){
+  const c = current;
+  document.querySelector('.stage').classList.add('on');
+  $('nowname').textContent = c.name;
+  $('nowname').classList.remove('off');
+  $('nowmeta').textContent = [c.group, c.country, c.language, c.res].filter(Boolean).join(' · ');
+  $('nowlogo').innerHTML = logoHtml(c);
+  ['fav', 'share', 'full', 'pip'].forEach(id => { $(id).disabled = false; });
+  setFav();
+  document.title = c.name + ' — MOLL∆ Television';
+  if ('mediaSession' in navigator){
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: c.name,
+        artist: [c.group, c.country].filter(Boolean).join(' · '),
+        album: 'MOLL∆ Television',
+        artwork: c.logo ? [{ src: c.logo, sizes: '512x512' }] : []
+      });
+    } catch (e) {}
+  }
+}
+
+function setRes(r){
+  if (!current) return;
+  $('nowmeta').textContent = [current.group, current.country, current.language, r].filter(Boolean).join(' · ');
+}
+
+function buildQuality(levels){
+  const q = $('quality');
+  const usable = levels.map((l, i) => ({ i, h: l.height })).filter(l => l.h);
+  const heights = [...new Set(usable.map(l => l.h))];
+  q.hidden = heights.length < 2;
+  if (q.hidden) return;
+  q.innerHTML = '<option value="-1">Auto</option>' + heights.sort((a, b) => b - a)
+    .map(h => '<option value="' + usable.filter(l => l.h === h).pop().i + '">' + h + 'p</option>').join('');
+}
+$('quality').addEventListener('change', e => { if (hls) hls.currentLevel = +e.target.value; });
+
+if ('mediaSession' in navigator){
+  try {
+    navigator.mediaSession.setActionHandler('nexttrack', () => zap(1));
+    navigator.mediaSession.setActionHandler('previoustrack', () => zap(-1));
+  } catch (e) {}
+}
+
+let osdTimer = 0;
+function osd(c, label){
+  const el = $('osd');
+  el.innerHTML = '<small>' + esc(label) + '</small>' + esc(c.name);
+  el.classList.add('show');
+  clearTimeout(osdTimer);
+  osdTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+let toastTimer = 0;
+function toast(msg){
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ---- saved and recent --------------------------------------------------- */
+function toggleFav(c){
+  if (favs.has(c.id)) favs.delete(c.id); else favs.add(c.id);
+  store.set('fav', [...favs]);
+  refreshRow(c);
+  if (c === current) setFav();
+  toast(favs.has(c.id) ? 'Saved · ' + c.name : 'Removed · ' + c.name);
+  if (genre === '@fav') applyFilters(true); else renderChips(baseList());
+}
+function setFav(){
+  const on = !!current && favs.has(current.id);
+  $('fav').setAttribute('aria-pressed', String(on));
+  $('fav').setAttribute('aria-label', on ? 'Remove from saved' : 'Save channel');
+}
+function remember(c){
+  recent = [c.id].concat(recent.filter(id => id !== c.id)).slice(0, RECENT_MAX);
+  store.set('recent', recent);
+  syncHash();
+}
+
+/* ---- the address bar: links that open a channel, or a filtered list ---- */
+let hashTimer = 0;
+function syncHash(){
+  clearTimeout(hashTimer);
+  hashTimer = setTimeout(() => {
+    const p = new URLSearchParams();
+    if (current) p.set('c', current.id);
+    if (genre && genre[0] !== '@') p.set('g', genre);
+    if (countryEl.value) p.set('in', countryEl.value);
+    if (langEl.value) p.set('lang', langEl.value);
+    const h = p.toString();
+    history.replaceState(null, '', h ? '#' + h : location.pathname + location.search);
+  }, 250);
+}
+function readHash(){
+  const p = new URLSearchParams(location.hash.slice(1));
+  return { c: p.get('c'), g: p.get('g'), co: p.get('in'), lg: p.get('lang') };
+}
+
+$('share').addEventListener('click', async () => {
+  if (!current) return;
+  const url = location.origin + location.pathname + '#c=' + encodeURIComponent(current.id);
+  if (navigator.share && matchMedia('(pointer:coarse)').matches){
+    try { await navigator.share({ title: current.name + ' — MOLL∆ Television', url }); return; } catch (e) { if (e.name === 'AbortError') return; }
+  }
+  try { await navigator.clipboard.writeText(url); toast('Link copied'); }
+  catch (e) { prompt('Link to ' + current.name, url); }
+});
+
+/* ---- controls ------------------------------------------------------------ */
+function fullscreen(){
+  if (!current) return;
+  if (document.fullscreenElement) return document.exitFullscreen();
+  if (screenEl.requestFullscreen) screenEl.requestFullscreen().catch(() => {});
+  else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+}
+async function pip(){
+  try {
+    if (document.pictureInPictureElement) await document.exitPictureInPicture();
+    else await video.requestPictureInPicture();
+  } catch (e) { toast('Picture in picture is not available here'); }
+}
+$('pip').hidden = !document.pictureInPictureEnabled;
+$('full').addEventListener('click', fullscreen);
+$('pip').addEventListener('click', pip);
+$('fav').addEventListener('click', () => current && toggleFav(current));
+$('prev').addEventListener('click', () => zap(-1));
+$('next').addEventListener('click', () => zap(1));
+$('shuffle').addEventListener('click', shuffle);
+$('geo').addEventListener('click', () => { hideGeo = !hideGeo; store.set('hideGeo', hideGeo); applyFilters(); });
+$('clear').addEventListener('click', () => {
+  qEl.value = ''; countryEl.value = ''; langEl.value = ''; genre = '';
+  applyFilters();
+});
+
+/* the fade on the right of the chips says "more this way" — until there isn't */
+const chipEdge = () => chipsEl.classList.toggle('end', chipsEl.scrollLeft + chipsEl.clientWidth >= chipsEl.scrollWidth - 4);
+chipsEl.addEventListener('scroll', chipEdge, { passive: true });
+chipsEl.addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  genre = b.dataset.g === genre ? '' : b.dataset.g;
+  applyFilters();
+});
+
+spacer.addEventListener('click', e => {
+  const row = e.target.closest('.ch');
+  if (!row) return;
+  const c = BYID.get(row.dataset.id);
+  if (!c) return;
+  if (e.target.closest('[data-star]')) return toggleFav(c);
+  play(c);
+});
+/* logos are other people's servers: when one fails, fall back to a letter */
+spacer.addEventListener('error', e => {
+  const img = e.target;
+  if (img.tagName === 'IMG') img.outerHTML = '<b>' + esc(img.dataset.mono || '∆') + '</b>';
+}, true);
+$('nowlogo').addEventListener('error', e => {
+  if (e.target.tagName === 'IMG') e.target.outerHTML = '<b>' + esc(e.target.dataset.mono || '∆') + '</b>';
+}, true);
+
+let typing = 0;
+qEl.addEventListener('input', () => { clearTimeout(typing); typing = setTimeout(() => applyFilters(), 140); });
+qEl.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){ qEl.value ? (qEl.value = '', applyFilters()) : qEl.blur(); }
+  if (e.key === 'Enter' && view.length){ play(view[0]); reveal(view[0]); qEl.blur(); }
+});
+countryEl.addEventListener('change', () => applyFilters());
+langEl.addEventListener('change', () => applyFilters());
+
+addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target;
+  if (t.matches && t.matches('input, select, textarea')) return;
+  const k = e.key;
+  if (k === '/'){ e.preventDefault(); qEl.focus(); qEl.select(); }
+  else if (k === 'ArrowDown' || k === 'ArrowUp'){
+    if (t === video) return;
+    e.preventDefault(); zap(k === 'ArrowDown' ? 1 : -1);
+  }
+  else if (k === 'f' || k === 'F') fullscreen();
+  else if (k === 'm' || k === 'M'){ video.muted = !video.muted; toast(video.muted ? 'Muted' : 'Sound on'); }
+  else if (k === 's' || k === 'S'){ if (current) toggleFav(current); }
+  else if (k === 'r' || k === 'R') shuffle();
+  else if (k === 'p' || k === 'P'){ if (current && document.pictureInPictureEnabled) pip(); }
+  else if (k === ' ' && current && t.tagName !== 'BUTTON'){
+    e.preventDefault(); video.paused ? video.play().catch(() => {}) : video.pause();
+  }
+});
+
+wrap.addEventListener('scroll', schedulePaint, { passive: true });
+addEventListener('scroll', schedulePaint, { passive: true });
+addEventListener('resize', schedulePaint, { passive: true });
+let raf = 0;
+function schedulePaint(){ if (!raf && view.length) raf = requestAnimationFrame(() => { raf = 0; paint(); }); }
+
+/* ---- boot ------------------------------------------------------------------ */
+function fillSelects(){
+  const byCountry = new Map(), byRegion = new Map(), byLang = new Map();
+  ALL.forEach(c => {
+    if (c.country) byCountry.set(c.country, (byCountry.get(c.country) || 0) + 1);
+    if (c.region) byRegion.set(c.region, (byRegion.get(c.region) || 0) + 1);
+    if (c.language) byLang.set(c.language, (byLang.get(c.language) || 0) + 1);
   });
-  var byName = new Intl.Collator(undefined, { sensitivity: 'base' });
-  fillSelect(genreEl, Object.keys(byG).sort(byName.compare)
-    .map(function(g){ return [g, g, byG[g]]; }));
-  fillSelect(regionEl, Object.keys(byC)
-    .map(function(c){ return [c, COUNTRY[c] || c.toUpperCase(), byC[c]]; })
-    .sort(function(a, b){ return byName.compare(a[1], b[1]); }));
+  const regionOf = new Map();
+  ALL.forEach(c => { if (c.country && !regionOf.has(c.country)) regionOf.set(c.country, c.region || 'Elsewhere'); });
+  const coll = new Intl.Collator('en', { sensitivity: 'base' });
+  const opt = (v, label, n) => '<option value="' + esc(v) + '">' + esc(label) + ' · ' + n.toLocaleString('en') + '</option>';
 
-  document.getElementById('headcount').textContent =
-    ALL.length.toLocaleString('en') + ' channels · ' +
-    Object.keys(byG).length + ' genres · ' + Object.keys(byC).length + ' countries';
+  let html = '<option value="">Every country</option>';
+  REGIONS.concat(['Elsewhere']).forEach(r => {
+    const names = [...byCountry.keys()].filter(n => regionOf.get(n) === r).sort(coll.compare);
+    if (!names.length) return;
+    html += '<optgroup label="' + esc(r) + '">' +
+      (byRegion.get(r) ? opt('r:' + r, 'All of ' + r, byRegion.get(r)) : '') +
+      names.map(n => opt(n, n, byCountry.get(n))).join('') + '</optgroup>';
+  });
+  countryEl.innerHTML = html;
+  langEl.innerHTML = '<option value="">Every language</option>' +
+    [...byLang.keys()].sort(coll.compare).map(l => opt(l, l, byLang.get(l))).join('');
+  qEl.placeholder = 'Search ' + ALL.length.toLocaleString('en') + ' channels';
+  return { countries: byCountry.size, genres: new Set(ALL.map(c => c.group)).size };
+}
+
+let verified = '', stats = null, lastText = '';
+function headline(){
+  if (!stats) return;
+  $('headcount').textContent = ALL.length.toLocaleString('en') + ' channels · ' + stats.genres + ' genres · ' +
+    stats.countries + ' countries' + (verified ? ' · tested ' + verified : '');
+}
+
+function load(text, first){
+  lastText = text;
+  const parsed = parse(text);
+  if (!parsed.length) throw new Error('the playlist held no channels');
+  const coll = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+  parsed.sort((a, b) => coll.compare(a.name, b.name));
+
+  /* a quiet refresh keeps what the visitor was doing */
+  const keep = { co: countryEl.value, lg: langEl.value, cur: current && current.id };
+  ALL = parsed;
+  BYID = new Map(ALL.map(c => [c.id, c]));
+  if (current) current = BYID.get(current.id) || current;
+  stats = fillSelects();
+  headline();
+
+  const h = first ? readHash() : {};
+  const pick = (el, v) => { if (v && [...el.options].some(o => o.value === v)) el.value = v; };
+  pick(countryEl, h.co || keep.co);
+  pick(langEl, h.lg || keep.lg);
+  if (h.g && ALL.some(c => c.group === h.g)) genre = h.g;
 
   listState.hidden = true;
-  applyFilters();
-}).catch(function(err){
-  listState.hidden = false;
-  listState.innerHTML = '<div class="big">The channel list did not load</div>' +
-    '<div>' + esc(err.message) + '</div>' +
-    '<a href="tv.html">Try again</a>';
-});
+  applyFilters(!first);
 
-var t = 0;
-qEl.addEventListener('input', function(){ clearTimeout(t); t = setTimeout(applyFilters, 140); });
-genreEl.addEventListener('change', applyFilters);
-regionEl.addEventListener('change', applyFilters);
-clearBtn.addEventListener('click', function(){
-  qEl.value = ''; genreEl.value = ''; regionEl.value = ''; applyFilters();
-});
-wrap.addEventListener('scroll', function(){
-  if (!wrap._raf) wrap._raf = requestAnimationFrame(function(){ wrap._raf = 0; paint(); });
-}, {passive:true});
-addEventListener('resize', function(){ if (view.length) paint(); }, {passive:true});
+  if (first){
+    const linked = h.c && BYID.get(h.c);
+    if (linked){ play(linked); reveal(linked); }
+    else showResume();
+  }
+}
+
+function showResume(){
+  const last = recent.map(id => BYID.get(id)).find(Boolean);
+  if (!last || current) return;
+  $('idlehint').textContent = 'Pick a channel, or';
+  $('resume').hidden = false;
+  $('resume').textContent = '▶ Resume ' + last.name;
+  $('resume').onclick = () => { play(last); reveal(last); };
+}
+
+function failedToLoad(err){
+  listState.hidden = false;
+  listState.innerHTML = '<div class="big">The channel list did not load</div><p>' + esc(err.message) + '</p>' +
+    '<a class="btn" href="tv.html">Try again</a>';
+}
+
+/* Stale-while-revalidate: a returning visitor gets the list they had at
+   once, and the fresh one replaces it quietly when it arrives. */
+(async () => {
+  let cache = null, shown = false;
+  try { cache = await caches.open(CACHE); } catch (e) {}
+  if (cache){
+    try {
+      const hit = await cache.match(PLAYLIST);
+      if (hit){ load(await hit.text(), true); shown = true; }
+    } catch (e) {}
+  }
+  try {
+    const res = await fetch(PLAYLIST, { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    if (cache) cache.put(PLAYLIST, new Response(text)).catch(() => {});
+    if (!shown || text !== lastText) load(text, !shown);
+  } catch (err) {
+    if (!shown) failedToLoad(err);
+  }
+})();
+
+/* when the list was last tested — one call, and nothing breaks without it */
+fetch(COMMITS).then(r => r.ok ? r.json() : null).then(d => {
+  const when = d && d[0] && new Date(d[0].commit.committer.date);
+  if (!when || isNaN(when)) return;
+  const h = (Date.now() - when) / 36e5;
+  verified = h < 1 ? Math.max(1, Math.round(h * 60)) + ' min ago' : h < 48 ? Math.round(h) + ' h ago' : Math.round(h / 24) + ' days ago';
+  headline();
+}).catch(() => {});
 </script>
 </body></html>
