@@ -20281,9 +20281,7 @@ https://i.mjh.nz/.r/7mate-syd.m3u8
 https://i.mjh.nz/.r/7flix-syd.m3u8
 #EXTINF:-1 tvg-region="Oceania" tvg-name="9Rush" tvg-logo="https://upload.wikimedia.org/wikipedia/en/c/c2/Logo_of_9RUSH.png" tvg-id="9Rush.au" tvg-chno="5" tvg-country="Australia" group-title="Movies & Series",9Rush Ⓖ
 https://i.mjh.nz/.r/rush-nsw.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="ORF Sport +" tvg-logo="https://i.imgur.com/MVNZ4gf.png" tvg-id="ORFSportPlus.at" tvg-chno="4" tvg-country="Austria" group-title="Sports",ORF Sport + Ⓖ
-https://orfs.mdn.ors.at/out/u/orfs/q8c/manifest.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="oe24" tvg-logo="https://i.imgur.com/8UTkcPn.png" tvg-id="Oe24TV.at" tvg-chno="6" tvg-country="Austria" group-title="General",oe24
+#EXTINF:-1 tvg-region="Europe" tvg-name="oe24" tvg-logo="https://i.imgur.com/8UTkcPn.png" tvg-id="Oe24TV.at" tvg-chno="3" tvg-country="Austria" group-title="General",oe24
 https://oe24.mdn.ors.at/live/eds/oe24tv_hd/hls_nodrm/oe24tv_hd-nodrm.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Real TV" tvg-logo="https://i.imgur.com/e2KFL0R.png" tvg-id="RealTV.az" tvg-country="Azerbaijan" group-title="General",Real TV Ⓨ
 https://www.youtube.com/channel/UCjpoTfA8TXO6QfAWiAB67eA/live
@@ -20389,11 +20387,11 @@ https://redirector.rudo.video/hls-video/10b92cafdf3646cbc1e727f3dc76863621a327fd
 http://74.91.26.218:82/live/cctv9hd.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="CCTV-15 音乐" tvg-logo="https://i.imgur.com/V9I1ZyB.png" tvg-id="CCTV15.cn" tvg-chno="16" tvg-country="China" group-title="Music",CCTV-15 音乐
 http://74.91.26.218:82/live/cctv15hd.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="FZTV-1 News 新闻综合频道" tvg-logo="https://i.imgur.com/QvBxGw3.png" tvg-id="FZTV1.cn" tvg-chno="19" tvg-country="China" group-title="General",FZTV-1 News 新闻综合频道
+#EXTINF:-1 tvg-region="Asia" tvg-name="FZTV-1 News 新闻综合频道" tvg-logo="https://i.imgur.com/QvBxGw3.png" tvg-id="FZTV1.cn" tvg-chno="18" tvg-country="China" group-title="General",FZTV-1 News 新闻综合频道
 http://live.zohi.tv/video/s10001-fztv-1/index.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="FZTV-3 Lifestyle Channel 生活频道" tvg-logo="https://i.imgur.com/jt7CWDT.png" tvg-id="FZTV3.cn" tvg-chno="21" tvg-country="China" group-title="General",FZTV-3 Lifestyle Channel 生活频道
+#EXTINF:-1 tvg-region="Asia" tvg-name="FZTV-3 Lifestyle Channel 生活频道" tvg-logo="https://i.imgur.com/jt7CWDT.png" tvg-id="FZTV3.cn" tvg-chno="19" tvg-country="China" group-title="General",FZTV-3 Lifestyle Channel 生活频道
 http://live.zohi.tv/video/s10001-fztv-3/index.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="FZTV-4 Children 少儿频道" tvg-logo="https://i.imgur.com/J4WtNTX.png" tvg-id="FZTVkids.cn" tvg-chno="22" tvg-country="China" group-title="General",FZTV-4 Children 少儿频道
+#EXTINF:-1 tvg-region="Asia" tvg-name="FZTV-4 Children 少儿频道" tvg-logo="https://i.imgur.com/J4WtNTX.png" tvg-id="FZTVkids.cn" tvg-chno="20" tvg-country="China" group-title="General",FZTV-4 Children 少儿频道
 http://live.zohi.tv/video/s10001-fztv-4/index.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-name="Canal 2 CDR" tvg-logo="https://i0.wp.com/directostv.teleame.com/wp-content/uploads/2016/06/Canal-2-Costa-Rica-en-vivo-Online.png" tvg-id="Canal2.cr" tvg-chno="2" tvg-country="Costa Rica" group-title="General",Canal 2 CDR
 https://d3bgcstab9qhdz.cloudfront.net/hls/canal2.m3u8
@@ -20425,7 +20423,7 @@ https://old.kuzeykibris.tv/m3u8/kktv.m3u8
 https://www.youtube.com/@TV2020KIBRIS/live
 #EXTINF:-1 tvg-region="Europe" tvg-name="ČT :D" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/ct-d-cz.png" tvg-id="CTDecko.cz" tvg-chno="5" tvg-country="Czech Republic" group-title="Kids & Family",ČT :D
 https://sktv.mxnticek.eu/new/stream.php?ch=CT_D
-#EXTINF:-1 tvg-region="Europe" tvg-name="ČT sport Plus" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/ct-sport-cz.png" tvg-id="" tvg-chno="7" tvg-country="Czech Republic" group-title="General",ČT sport Plus
+#EXTINF:-1 tvg-region="Europe" tvg-name="ČT sport Plus" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/ct-sport-cz.png" tvg-chno="7" tvg-country="Czech Republic" group-title="General",ČT sport Plus
 https://sktv.mxnticek.eu/new/stream.php?ch=%C4%8CT%20sport%20Plus
 #EXTINF:-1 tvg-region="Europe" tvg-name="Nova Cinema" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/nova-cinema-cz.png" tvg-id="NovaCinema.cz" tvg-chno="9" tvg-country="Czech Republic" group-title="Movies & Series",Nova Cinema
 https://sktv.mxnticek.eu/new/stream.php?ch=NovaCinema
@@ -20437,7 +20435,7 @@ https://sktv.mxnticek.eu/new/stream.php?ch=NovaFun
 https://sktv.mxnticek.eu/new/stream.php?ch=NovaGold
 #EXTINF:-1 tvg-region="Europe" tvg-name="Nova Lady" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/nova-lady-cz.png" tvg-id="NovaLady.cz" tvg-chno="13" tvg-country="Czech Republic" group-title="Entertainment",Nova Lady
 https://sktv.mxnticek.eu/new/stream.php?ch=NovaLady
-#EXTINF:-1 tvg-region="Europe" tvg-name="TN Live" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/nova-cz.png" tvg-id="" tvg-chno="14" tvg-country="Czech Republic" group-title="General",TN Live
+#EXTINF:-1 tvg-region="Europe" tvg-name="TN Live" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/nova-cz.png" tvg-chno="14" tvg-country="Czech Republic" group-title="General",TN Live
 https://sktv.mxnticek.eu/new/stream.php?ch=Nova%20TN%20Live
 #EXTINF:-1 tvg-region="Europe" tvg-name="Prima Krimi" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/czech-republic/prima-krimi-cz.png" tvg-id="PrimaKrimi.cz" tvg-chno="20" tvg-country="Czech Republic" group-title="General",Prima Krimi
 https://sktv.mxnticek.eu/new/stream.php?ch=PrimaKrimi
@@ -20507,6 +20505,8 @@ https://irrtv2.digitacdn.net/live/ott/irrtv/playlist.m3u8?organizationId=2294014
 https://live-fi.tvkaista.net/tapahtumatv-eveo/live.m3u8?src=freetv
 #EXTINF:-1 tvg-region="Europe" tvg-name="National Geographic Finland" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Natgeologo.svg/500px-Natgeologo.svg.png" tvg-id="NationalGeographicFinland.fi" tvg-chno="20" tvg-country="Finland" group-title="General",National Geographic Finland Ⓖ
 https://live-fi.tvkaista.net/national-geographic/live.m3u8?src=freetv
+#EXTINF:-1 tvg-region="Europe" tvg-name="MTV Uutiset Live" tvg-logo="https://i.imgur.com/IyB6mIb.png" tvg-id="MTVUutiset.fi" tvg-chno="99" tvg-country="Finland" group-title="News",MTV Uutiset Live
+https://live.streaming.a2d.tv/content/channels/uutiset/cmaf.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Sundom TV" tvg-logo="https://i.imgur.com/WgwR7nJ.png" tvg-id="SundomTV.fi" tvg-country="Finland" group-title="General",Sundom TV Ⓨ
 https://www.youtube.com/@SundomTV/live
 #EXTINF:-1 tvg-region="Europe" tvg-name="Wör TV" tvg-logo="https://i.imgur.com/P9O1jo0.png" tvg-id="WorTV.fi" tvg-country="Finland" group-title="General",Wör TV Ⓨ
@@ -20609,22 +20609,12 @@ https://tvp22.sky4k.top/index1.php
 https://tvp22.sky4k.top/index2.php
 #EXTINF:-1 tvg-region="Europe" tvg-name="M1 Hiradó" tvg-logo="https://i.imgur.com/neddXUd.png" tvg-chno="2" tvg-country="Hungary" group-title="General",M1 Hiradó Ⓨ
 https://www.youtube.com/@M1-Hirado/live
-#EXTINF:-1 tvg-region="Europe" tvg-name="Duna TV" tvg-logo="https://i.imgur.com/b4RXacY.png" tvg-id="DunaTV.hu" tvg-chno="6" tvg-country="Hungary" group-title="General",Duna TV Ⓖ
-http://88.212.15.19/live/duna_hun/index.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="RTL Klub" tvg-logo="https://i.imgur.com/ruRshE1.png" tvg-id="RTLKlub.hu" tvg-chno="1" tvg-country="Hungary" group-title="General",RTL Klub
-http://88.212.15.19/live/test_rtl_klub_hungary_1200_atk/playlist.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="ErdélyTV" tvg-logo="http://kommunikacio.ro/wp-content/uploads/2017/10/erdelytv.png" tvg-chno="7" tvg-country="Hungary" group-title="General",ErdélyTV Ⓨ
 https://www.youtube.com/channel/UCS5t4xWMT6lIZ9tcPROUd5A/live
-#EXTINF:-1 tvg-region="Europe" tvg-name="FEM3 (TV2 Klub)" tvg-logo="https://i.imgur.com/AF4Sz8Z.png" tvg-id="FEM3.hu" tvg-chno="8" tvg-country="Hungary" group-title="Entertainment",FEM3 (TV2 Klub)
-http://88.212.15.19/live/test_fem3_atktv/playlist.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="Viasat 6" tvg-logo="https://i.imgur.com/kypSbFX.png" tvg-id="Viasat6.hu" tvg-chno="1" tvg-country="Hungary" group-title="General",Viasat 6
-http://88.212.15.19/live/viasat6/index.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="EWTN TV" tvg-logo="https://katolikus.tv/wp-content/themes/bonum/img/ewtn-badge.jpg" tvg-id="BonumTV.hu" tvg-chno="1" tvg-country="Hungary" group-title="General",EWTN TV
 https://hls.iptvservice.eu/hls/ewtn-hd.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="DikhTv" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/3/34/Dikhtv.png" tvg-id="DikhTV.hu" tvg-chno="4" tvg-country="Hungary" group-title="Documentary",DikhTv Ⓨ
 https://www.youtube.com/c/DikhTvGipsyTv/live
-#EXTINF:-1 tvg-region="Europe" tvg-name="Izaura TV" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Izaura_TV_logo.svg/250px-Izaura_TV_logo.svg.png" tvg-id="IzauraTV.hu" tvg-chno="1" tvg-country="Hungary" group-title="Entertainment",Izaura TV
-http://88.212.15.19/live/izaura/index.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Parlamenti közvetítés" tvg-logo="" tvg-chno="2" tvg-country="Hungary" group-title="General",Parlamenti közvetítés
 https://plenaris.parlament.hu:446/edgelive/smil:mkogyplen.smil/playlist.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Parlamenti TAB közvetítés" tvg-logo="" tvg-chno="3" tvg-country="Hungary" group-title="General",Parlamenti TAB közvetítés
@@ -20635,9 +20625,7 @@ https://cloudfront44.lexanetwork.com:1344/relay44_1/HDE046.sdp/playlist.m3u8
 https://cloudfront44.lexanetwork.com:1344/relay44_1/HDE043.sdp/playlist.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Hegyvidék TV (Buda TV)" tvg-logo="https://hegyvidektv.hu/wp-content/uploads/2025/05/BUDATV_logo_picon.png" tvg-chno="29" tvg-country="Hungary" group-title="General",Hegyvidék TV (Buda TV)
 http://budatv.streaming.aiproduction.hu/playlist.m3u
-#EXTINF:-1 tvg-region="Europe" tvg-name="Duna World / M4+ Sport" tvg-logo="https://i.imgur.com/DciAdFF.png" tvg-id="DunaWorld.hu" tvg-chno="2" tvg-country="Hungary" group-title="General",Duna World / M4+ Sport
-http://88.212.15.19/live/duna_world_hun/index.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="Putnok Városi TV" tvg-logo="https://i.imgur.com/eKXPBFb.png" tvg-id="PVTV.hu" tvg-chno="6" tvg-country="Hungary" group-title="General",Putnok Városi TV
+#EXTINF:-1 tvg-region="Europe" tvg-name="Putnok Városi TV" tvg-logo="https://i.imgur.com/eKXPBFb.png" tvg-id="PVTV.hu" tvg-chno="9" tvg-country="Hungary" group-title="General",Putnok Városi TV
 http://91.147.248.75:5080/LiveApp/streams/nvUds5LHykQyOVXZ1706907141950.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="Asianet News Telugu" tvg-logo="https://i.imgur.com/9wJvDMn.jpeg" tvg-id="Telugu.AsianetNews.com" tvg-chno="21" tvg-country="India" group-title="General",Asianet News Telugu Ⓨ
 https://www.youtube.com/@AsianetNewsTelugu/live
@@ -20723,7 +20711,7 @@ https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forc
 https://d3k8wzt41aflvx.cloudfront.net/RaiPremium/Live.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Cielo" tvg-logo="https://i.imgur.com/cPluF03.png" tvg-id="cielo.it" tvg-chno="26" tvg-country="Italy" group-title="General",Cielo Ⓖ
 https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11219/cieloweb/master.m3u8?hdnts=st=1764666351~exp=1829466206~acl=/*~hmac=b0e9165b6c55027903ad103c8219f363d8765eb300c0d9a339e9767fc3509556
-#EXTINF:-1 tvg-region="Europe" tvg-name="27 Twentyseven" tvg-logo="https://i.imgur.com/y2PdPCK.png" tvg-id="27Twentyseven.it" tvg-chno="27" tvg-country="Italy" group-title="General",27 Twentyseven Ⓖ
+#EXTINF:-1 tvg-region="Europe" tvg-name="27 Twentyseven" tvg-logo="https://i.imgur.com/y2PdPCK.png" tvg-id="27.Twentyseven.it" tvg-chno="27" tvg-country="Italy" group-title="General",27 Twentyseven Ⓖ
 https://live02-seg.msf.cdn.mediaset.net/live/ch-ts/ts-clr.isml/index.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Real Time" tvg-logo="https://i.imgur.com/9dcTYg1.png" tvg-id="Real.Time.it" tvg-chno="31" tvg-country="Italy" group-title="General",Real Time
 https://streaming.aurora.enhanced.live/live/mpc/enl0eG1mLmVncmVzcy5mZDJ2eHI=/out/v1/IT_SIMULCAST/REALTIME/CMAF/index.m3u8
@@ -21191,10 +21179,6 @@ https://www.youtube.com/user/trmh24/live
 https://www.twitch.tv/teleroma_56
 #EXTINF:-1 tvg-region="Europe" tvg-name="TeleRadioStereo" tvg-logo="https://i.imgur.com/eRNgqnA.png" tvg-country="Italy" group-title="General",TeleRadioStereo Ⓣ
 https://www.twitch.tv/teleradiostereo
-#EXTINF:-1 tvg-region="Asia" tvg-name="NHK Eテレ（東京）" tvg-logo="https://i.imgur.com/WxtftlO.png" tvg-id="JOABDTV.jp" tvg-chno="D021" tvg-country="Japan" group-title="General",NHK Eテレ（東京）
-https://naori-test.netgenx.site/pxx.php?shk_cid=hdgd02#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="日本テレビ" tvg-logo="https://i.imgur.com/ecbM7QS.png" tvg-id="JOAXDTV.jp" tvg-chno="D041" tvg-country="Japan" group-title="General",日本テレビ
-https://naori-test.netgenx.site/pxx.php?shk_cid=hdgd03#.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="テレビ朝日" tvg-logo="https://i.imgur.com/5XnMfcR.png" tvg-id="JOEXDTV.jp" tvg-chno="D051" tvg-country="Japan" group-title="General",テレビ朝日
 https://tvasahi.mov3.co/hls/tvasahi.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="TBSテレビ" tvg-logo="https://i.imgur.com/jIZ9TlO.png" tvg-id="JORXDTV.jp" tvg-chno="D061" tvg-country="Japan" group-title="General",TBSテレビ
@@ -21203,31 +21187,9 @@ https://tbs5.mov3.co/hls/tbs.m3u8
 https://tvtokyo.mov3.co/hls/tvtokyo.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="フジテレビ" tvg-logo="https://i.imgur.com/epJYc7P.png" tvg-id="JOCXDTV.jp" tvg-chno="D081" tvg-country="Japan" group-title="General",フジテレビ
 https://fujitv4.mov3.co/hls/fujitv.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="NHK BS" tvg-logo="https://i.imgur.com/t0uZcSR.png" tvg-id="NHKBS.jp" tvg-chno="BS101" tvg-country="Japan" group-title="General",NHK BS
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs02#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="NHK BSP4K" tvg-logo="https://i.imgur.com/uvPpFo5.png" tvg-id="NHKBSP4K.jp" tvg-chno="BS4K101" tvg-country="Japan" group-title="Entertainment",NHK BSP4K
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs01#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="BS日テレ" tvg-logo="https://i.imgur.com/26ATUNc.png" tvg-id="BSNipponTV.jp" tvg-chno="BS141" tvg-country="Japan" group-title="General",BS日テレ
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs03#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="BS朝日" tvg-logo="https://i.imgur.com/Cl68ZMA.png" tvg-id="BSAsahi.jp" tvg-chno="BS151" tvg-country="Japan" group-title="General",BS朝日
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs04#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="BS-TBS" tvg-logo="https://i.imgur.com/BSt9UG2.png" tvg-id="BSTBS.jp" tvg-chno="BS161" tvg-country="Japan" group-title="General",BS-TBS
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs05#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="BSテレ東" tvg-logo="https://i.imgur.com/LsQlNcz.png" tvg-id="BSTVTokyo.jp" tvg-chno="BS171" tvg-country="Japan" group-title="General",BSテレ東
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs06#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="BSフジ" tvg-logo="https://i.imgur.com/N4xeDxJ.png" tvg-id="BSFuji.jp" tvg-chno="BS181" tvg-country="Japan" group-title="General",BSフジ
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs11#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="WOWOWプライム" tvg-logo="https://www.lyngsat.com/logo/tv/ww/wowow_prime.png" tvg-id="WOWOWPrime.jp" tvg-chno="BS191" tvg-country="Japan" group-title="General",WOWOWプライム
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs12#.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="WOWOWライブ" tvg-logo="https://www.lyngsat.com/logo/tv/ww/wowow_live.png" tvg-id="WOWOWLive.jp" tvg-chno="BS192" tvg-country="Japan" group-title="General",WOWOWライブ
 [NO PUBLIC STREAM]
-#EXTINF:-1 tvg-region="Asia" tvg-name="WOWOWシネマ" tvg-logo="https://www.lyngsat.com/logo/tv/ww/wowow_cinema.png" tvg-id="WOWOWCinema.jp" tvg-chno="BS193" tvg-country="Japan" group-title="Movies & Series",WOWOWシネマ
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs08#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="BS10" tvg-logo="https://i.imgur.com/KPZiuHl.png" tvg-id="jcom_120_110_4" tvg-chno="BS200" tvg-country="Japan" group-title="General",BS10
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs10#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="BS10スターチャンネル" tvg-logo="https://i.imgur.com/SN0ED0U.png" tvg-id="jcom_120_200_4" tvg-chno="BS201" tvg-country="Japan" group-title="General",BS10スターチャンネル
-https://naori-test.netgenx.site/pxx.php?shk_cid=bs07#.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="TOKYO MX チャンネル" tvg-logo="https://channel.rakuten.co.jp/service/img/logo/chlogo-with-number/108_mx.png" tvg-id="" tvg-chno="CH 108" tvg-country="Japan" group-title="General",TOKYO MX チャンネル
+#EXTINF:-1 tvg-region="Asia" tvg-name="TOKYO MX チャンネル" tvg-logo="https://channel.rakuten.co.jp/service/img/logo/chlogo-with-number/108_mx.png" tvg-chno="CH 108" tvg-country="Japan" group-title="General",TOKYO MX チャンネル
 https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01287-rakutentvjapan-tokyomx-cmaf-rakutenjp/playlist.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="日テレNEWS" tvg-logo="https://channel.rakuten.co.jp/service/img/logo/chlogo-with-number/104_ntvnews.png" tvg-id="rch_47" tvg-chno="rch_47" tvg-country="Japan" group-title="General",日テレNEWS
 https://cdn-apne1.tsv2.amagi.tv/linear/amg01287-rakutentvjapan-news1hlscmaf-rakutenjp/playlist.m3u8
@@ -21291,7 +21253,7 @@ https://cdn4.skygo.mn/live/disk1/MNB/HLSv3-FTA/MNB.m3u8
 https://cdn4.skygo.mn/live/disk1/MNB2/HLSv3-FTA/MNB2.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="MNB International" tvg-logo="" tvg-id="MNBWorld.mn" tvg-chno="4" tvg-country="Mongolia" group-title="General",MNB International
 https://cdn4.skygo.mn/live/disk1/MNB_World/HLSv3-FTA/MNB_World.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="MNB Гэр бүл" tvg-logo="" tvg-id="" tvg-chno="5" tvg-country="Mongolia" group-title="General",MNB Гэр бүл
+#EXTINF:-1 tvg-region="Asia" tvg-name="MNB Гэр бүл" tvg-logo="" tvg-chno="5" tvg-country="Mongolia" group-title="General",MNB Гэр бүл
 https://cdn4.skygo.mn/live/disk1/MNB_Family/HLSv3-FTA/MNB_Family.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="MN25" tvg-logo="" tvg-id="TV25.mn" tvg-chno="6" tvg-country="Mongolia" group-title="General",MN25
 https://cdn4.skygo.mn/live/disk1/MN25/HLSv3-FTA/MN25.m3u8
@@ -21309,7 +21271,7 @@ https://cdn4.skygo.mn/live/disk1/C1/HLSv3-FTA/C1.m3u8
 https://cdn4.skygo.mn/live/disk1/Ekh_Oron/HLSv3-FTA/Ekh_Oron.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="MovieBox" tvg-logo="" tvg-id="MovieBox.mn" tvg-chno="16" tvg-country="Mongolia" group-title="Movies & Series",MovieBox
 https://cdn4.skygo.mn/live/disk1/Moviebox/HLSv3-FTA/Moviebox.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="CNBC MGL" tvg-logo="" tvg-id="" tvg-chno="17" tvg-country="Mongolia" group-title="General",CNBC MGL
+#EXTINF:-1 tvg-region="Asia" tvg-name="CNBC MGL" tvg-logo="" tvg-chno="17" tvg-country="Mongolia" group-title="General",CNBC MGL
 https://cdn4.skygo.mn/live/disk1/CNBC/HLSv3-FTA/CNBC.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="Education TV" tvg-logo="" tvg-id="EdutainmentTV.mn" tvg-chno="19" tvg-country="Mongolia" group-title="Documentary",Education TV
 https://cdn4.skygo.mn/live/disk1/Education/HLSv3-FTA/Education.m3u8
@@ -21331,17 +21293,17 @@ https://cdn4.skygo.mn/live/disk1/SuldTV/HLSv3-FTA/SuldTV.m3u8
 https://cdn4.skygo.mn/live/disk1/GlobalTV/HLSv3-FTA/GlobalTV.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="MNC" tvg-logo="" tvg-id="MongolianNewsChannel.mn" tvg-chno="34" tvg-country="Mongolia" group-title="News",MNC
 https://cdn4.skygo.mn/live/disk1/MNCTV/HLSv3-FTA/MNCTV.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="Bantan" tvg-logo="" tvg-id="" tvg-chno="35" tvg-country="Mongolia" group-title="General",Bantan
+#EXTINF:-1 tvg-region="Asia" tvg-name="Bantan" tvg-logo="" tvg-chno="35" tvg-country="Mongolia" group-title="General",Bantan
 https://cdn4.skygo.mn/live/disk1/Popcorn/HLSv3-FTA/Popcorn.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="Auto TV (720p)" tvg-logo="" tvg-id="" tvg-chno="36" tvg-country="Mongolia" group-title="General",Auto TV (720p)
+#EXTINF:-1 tvg-region="Asia" tvg-name="Auto TV (720p)" tvg-logo="" tvg-chno="36" tvg-country="Mongolia" group-title="General",Auto TV (720p)
 https://cdn4.skygo.mn/live/disk1/AutoTV/HLSv3-FTA/AutoTV.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="Bloomberg TV Mongolia HD (720p)" tvg-logo="" tvg-id="BloombergTVMongolia.mn" tvg-chno="37" tvg-country="Mongolia" group-title="News",Bloomberg TV Mongolia HD (720p)
 https://cdn4.skygo.mn/live/disk1/BloombergMon/HLSv3-FTA/BloombergMon.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-name="Mongolian Plus1" tvg-logo="" tvg-id="Volplus.mn" tvg-chno="39" tvg-country="Mongolia" group-title="General",Mongolian Plus1
 https://cdn4.skygo.mn/live/disk1/VolumePlus/HLSv3-FTA/VolumePlus.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="Mongolia Music" tvg-logo="" tvg-id="" tvg-chno="40" tvg-country="Mongolia" group-title="General",Mongolia Music
+#EXTINF:-1 tvg-region="Asia" tvg-name="Mongolia Music" tvg-logo="" tvg-chno="40" tvg-country="Mongolia" group-title="General",Mongolia Music
 https://cdn4.skygo.mn/live/disk1/Khugjim/HLSv3-FTA/Khugjim.m3u8
-#EXTINF:-1 tvg-region="Asia" tvg-name="Mongol TV" tvg-logo="" tvg-id="" tvg-chno="7" tvg-country="Mongolia" group-title="General",Mongol TV Ⓨ
+#EXTINF:-1 tvg-region="Asia" tvg-name="Mongol TV" tvg-logo="" tvg-chno="7" tvg-country="Mongolia" group-title="General",Mongol TV Ⓨ
 https://www.youtube.com/c/MONGOLTVnow/live
 #EXTINF:-1 tvg-region="Europe" tvg-name="Omrop Fryslân" tvg-logo="https://i.imgur.com/0VKJLAK.png" tvg-id="OmropFryslanTV.nl" tvg-chno="1" tvg-country="Netherlands" group-title="General",Omrop Fryslân
 https://d3pvma9xb2775h.cloudfront.net/live/omropfryslan/f8f68bd5/playlist.m3u8
@@ -21371,7 +21333,7 @@ https://zonam1.ddns.net/hls/stream1.m3u8
 https://skyfolk.mk/live.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Хуго 2" tvg-logo="https://i.imgur.com/yb3xjOZ.png" tvg-id="Hugo2.mk" tvg-chno="9" tvg-country="North Macedonia" group-title="General",Хуго 2
 http://fta.hugo.mk:1935/live/tvhugo/stream/2.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="Вистел" tvg-logo="https://i.imgur.com/MbM0E6L.png" tvg-id="" tvg-chno="13" tvg-country="North Macedonia" group-title="General",Вистел
+#EXTINF:-1 tvg-region="Europe" tvg-name="Вистел" tvg-logo="https://i.imgur.com/MbM0E6L.png" tvg-chno="13" tvg-country="North Macedonia" group-title="General",Вистел
 https://live.vtv.mk/live/vtv/chunks.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="Kanal 10 Norge" tvg-logo="https://i.imgur.com/2fOcZfK.png" tvg-id="Kanal10Norway.no" tvg-chno="109" tvg-country="Norway" group-title="Religious",Kanal 10 Norge Ⓨ
 https://www.youtube.com/c/Kanal10Norge/live
@@ -21379,8 +21341,6 @@ https://www.youtube.com/c/Kanal10Norge/live
 https://www.youtube.com/c/ATVNoticiasOficial/live
 #EXTINF:-1 tvg-region="Europe" tvg-name="Belsat" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Belsat_%282022%29.svg/960px-Belsat_%282022%29.svg.png" tvg-id="BelsatTV.pl" tvg-chno="36" tvg-country="Poland" group-title="General",Belsat
 https://iptv.prosto.tv/ch171/index.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="TVP Kultura 2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/TVP_Kultura_2_%282020%29.svg/500px-TVP_Kultura_2_%282020%29.svg.png" tvg-id="TVPKultura2.pl" tvg-chno="94" tvg-country="Poland" group-title="Documentary",TVP Kultura 2
-https://www.tvkaista.net/stream-forwarder/get.php?x=TVPKultura2
 #EXTINF:-1 tvg-region="Europe" tvg-name="RTP2" tvg-logo="https://upload.wikimedia.org/wikipedia/en/4/4d/Rtp2_2016_logo.png" tvg-id="RTP2.pt" tvg-chno="2" tvg-country="Portugal" group-title="General",RTP2 Ⓖ
 https://streaming-live.rtp.pt/liverepeater/rtp2HD.smil/playlist.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="RTP3" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/b/b9/Rtp3.png" tvg-id="RTP3.pt" tvg-chno="3" tvg-country="Portugal" group-title="General",RTP3
@@ -21395,7 +21355,7 @@ https://streaming-live.rtp.pt/liverepeater/smil:rtpnHD.smil/playlist.m3u8
 https://streaming-live.rtp.pt/liverepeater/smil:rtpmem.smil/playlist.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="RTP Mundo" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/RTP_Mundo.svg/330px-RTP_Mundo.svg.png" tvg-id="RTPInternacional.pt" tvg-chno="10" tvg-country="Portugal" group-title="General",RTP Mundo
 https://streaming-live.rtp.pt/liverepeater/smil:rtpi.smil/playlist.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-name="ADtv" tvg-logo="https://i.imgur.com/FvlcU3z.png" tvg-id="" tvg-chno="12" tvg-country="Portugal" group-title="General",ADtv Ⓢ
+#EXTINF:-1 tvg-region="Europe" tvg-name="ADtv" tvg-logo="https://i.imgur.com/FvlcU3z.png" tvg-chno="12" tvg-country="Portugal" group-title="General",ADtv Ⓢ
 https://playout172.livextend.cloud/liveiframe/_definst_/ngrp:liveartvabr_abr/playlist.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="RTP África" tvg-logo="https://i.imgur.com/ISFNy17.png" tvg-id="RTPAfrica.pt" tvg-chno="14" tvg-country="Portugal" group-title="General",RTP África
 https://streaming-live.rtp.pt/liverepeater/smil:rtpafrica.smil/playlist.m3u8
@@ -21535,29 +21495,17 @@ https://sktv.mxnticek.eu/new/stream.php?ch=Doma
 https://sktv.mxnticek.eu/new/stream.php?ch=Dajto
 #EXTINF:-1 tvg-region="Europe" tvg-name="Krimi" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/markiza-krimi-sk.png" tvg-id="MarkizaKrimi.sk" tvg-chno="4" tvg-country="Slovakia" group-title="Entertainment",Krimi
 https://sktv.mxnticek.eu/new/stream.php?ch=Krimi
-#EXTINF:-1 tvg-region="Europe" tvg-name="Markíza TN Live" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/markiza-sk.png" tvg-id="" tvg-chno="6" tvg-country="Slovakia" group-title="General",Markíza TN Live
+#EXTINF:-1 tvg-region="Europe" tvg-name="Markíza TN Live" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/markiza-sk.png" tvg-chno="6" tvg-country="Slovakia" group-title="General",Markíza TN Live
 https://sktv.mxnticek.eu/new/stream.php?ch=Mark%C3%ADza%20TN%20Live
-#EXTINF:-1 tvg-region="Europe" tvg-name="JOJ" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/joj-sk.png" tvg-id="JOJ.sk" tvg-chno="7" tvg-country="Slovakia" group-title="General",JOJ
-https://sktv.mxnticek.eu/new/stream.php?ch=JOJ
-#EXTINF:-1 tvg-region="Europe" tvg-name="JOJ Plus" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/joj-plus-sk.png" tvg-id="JOJPlus.sk" tvg-chno="8" tvg-country="Slovakia" group-title="Entertainment",JOJ Plus
-https://sktv.mxnticek.eu/new/stream.php?ch=JOJ%20Plus
-#EXTINF:-1 tvg-region="Europe" tvg-name="Wau" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/joj-wau-sk.png" tvg-id="JOJWau.sk" tvg-chno="9" tvg-country="Slovakia" group-title="General",Wau
-https://sktv.mxnticek.eu/new/stream.php?ch=Wau
-#EXTINF:-1 tvg-region="Europe" tvg-name="JOJ 24" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/joj-24-sk.png" tvg-id="JOJ24.sk" tvg-chno="10" tvg-country="Slovakia" group-title="News",JOJ 24
-https://sktv.mxnticek.eu/new/stream.php?ch=JOJ%2024
-#EXTINF:-1 tvg-region="Europe" tvg-name="JOJ Šport" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/joj-sport-sk.png" tvg-id="JOJSport.sk" tvg-chno="11" tvg-country="Slovakia" group-title="Sports",JOJ Šport
-https://sktv.mxnticek.eu/new/stream.php?ch=JOJ%20%C5%A0port
 #EXTINF:-1 tvg-region="Europe" tvg-name="Jojko" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/jojko-sk.png" tvg-id="Jojko.sk" tvg-chno="12" tvg-country="Slovakia" group-title="Kids & Family",Jojko
 https://sktv.mxnticek.eu/new/stream.php?ch=Jojko
-#EXTINF:-1 tvg-region="Europe" tvg-name="Dvojka" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/dvojka-sk.png" tvg-id="STV2.sk" tvg-chno="14" tvg-country="Slovakia" group-title="General",Dvojka
-http://88.212.15.19/live/test_dvojka_25p/playlist.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-name="STVR :24" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/rtvs-24-sk.png" tvg-id="RTVS24.sk" tvg-chno="15" tvg-country="Slovakia" group-title="General",STVR :24
 https://sktv.mxnticek.eu/new/stream.php?ch=STVR%20%3A24
 #EXTINF:-1 tvg-region="Europe" tvg-name="Šport" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/rtvs-sport-sk.png" tvg-id="RTVSSport.sk" tvg-chno="16" tvg-country="Slovakia" group-title="General",Šport
 https://sktv.mxnticek.eu/new/stream.php?ch=%C5%A0port
-#EXTINF:-1 tvg-region="Europe" tvg-name="STVR :O" tvg-logo=" :" tvg-id="" tvg-chno="17" tvg-country="Slovakia" group-title="General",STVR :O
+#EXTINF:-1 tvg-region="Europe" tvg-name="STVR :O" tvg-logo=" :" tvg-chno="17" tvg-country="Slovakia" group-title="General",STVR :O
 https://sktv.mxnticek.eu/new/stream.php?ch=STVR%20%3AO
-#EXTINF:-1 tvg-region="Europe" tvg-name="STVR Live" tvg-logo=" Liv" tvg-id="" tvg-chno="19" tvg-country="Slovakia" group-title="General",STVR Live
+#EXTINF:-1 tvg-region="Europe" tvg-name="STVR Live" tvg-logo=" Liv" tvg-chno="19" tvg-country="Slovakia" group-title="General",STVR Live
 https://sktv.mxnticek.eu/new/stream.php?ch=STVR%20Live
 #EXTINF:-1 tvg-region="Europe" tvg-name="TA3" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/slovakia/ta3-sk.png" tvg-id="TA3.sk" tvg-chno="20" tvg-country="Slovakia" group-title="General",TA3
 https://sktv.mxnticek.eu/new/stream.php?ch=TA3
@@ -21669,13 +21617,13 @@ https://www.youtube.com/watch?v=x6XVbD7Ln78
 https://www.youtube.com/watch?v=Lj8OWF6nzcg
 #EXTINF:-1 tvg-region="Americas" tvg-name="CNC3" tvg-logo="https://i.imgur.com/1E73l2j.png" tvg-id="CNC3.tt" tvg-chno="1" tvg-country="Trinidad and Tobago" group-title="General",CNC3
 https://sktv-forwarders.7m.pl/get.php?x=CNC3
-#EXTINF:-1 tvg-region="Americas" tvg-name="gayelle" tvg-logo="https://i.imgur.com/GhWdqLq.jpg" tvg-id="" tvg-chno="2" tvg-country="Trinidad and Tobago" group-title="General",gayelle
+#EXTINF:-1 tvg-region="Americas" tvg-name="gayelle" tvg-logo="https://i.imgur.com/GhWdqLq.jpg" tvg-chno="2" tvg-country="Trinidad and Tobago" group-title="General",gayelle
 https://sktv-forwarders.7m.pl/get.php?x=gayelle
 #EXTINF:-1 tvg-region="Americas" tvg-name="Synergy TV" tvg-logo="https://i.imgur.com/ugAy0UG.jpg" tvg-id="SynergyTV.tt" tvg-chno="3" tvg-country="Trinidad and Tobago" group-title="Music",Synergy TV
 https://sktv-forwarders.7m.pl/get.php?x=Synergy_TV
 #EXTINF:-1 tvg-region="Americas" tvg-name="TTT" tvg-logo="https://i.imgur.com/rxf4x8J.jpg" tvg-id="TTT.tt" tvg-chno="4" tvg-country="Trinidad and Tobago" group-title="General",TTT
 https://sktv-forwarders.7m.pl/get.php?x=TTT
-#EXTINF:-1 tvg-region="Americas" tvg-name="IBN" tvg-logo="https://i.imgur.com/hSJGncF.jpg" tvg-id="" tvg-chno="5" tvg-country="Trinidad and Tobago" group-title="General",IBN
+#EXTINF:-1 tvg-region="Americas" tvg-name="IBN" tvg-logo="https://i.imgur.com/hSJGncF.jpg" tvg-chno="5" tvg-country="Trinidad and Tobago" group-title="General",IBN
 https://sktv-forwarders.7m.pl/get.php?x=IBN
 #EXTINF:-1 tvg-region="Europe" tvg-name="TRT Spor 2" tvg-logo="https://i.imgur.com/ysKteM8.png" tvg-chno="5" tvg-country="Turkiye" group-title="General",TRT Spor 2 Ⓖ
 https://tv-trtspor2.medya.trt.com.tr/master.m3u8
@@ -21839,7 +21787,7 @@ http://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5b85a7582921777994c
 http://service-stitcher.clusters.pluto.tv/stitch/hls/channel/561c5b0dada51f8004c4d855/master.m3u8?terminate=false&deviceType=web&deviceMake=web&deviceModel=web&sid=106&deviceId=561c5b0dada51f8004c4d855&deviceVersion=DNT&appVersion=DNT&deviceDNT=0&userId=&advertisingId=&deviceLat=&deviceLon=&app_name=&appName=web&buildVersion=&appStoreUrl=&architecture=&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false
 #EXTINF:-1 tvg-name="Film Detective" tvg-logo="https://i.imgur.com/4aFLH9g.png" group-title="General",Film Detective
 https://dai.google.com/linear/hls/event/OYH9J7rZSK2fabKXWAYcfA/master.m3u8
-#EXTINF:-1 tvg-name="Action Hollywood Movies" tvg-logo="" tvg-id="" group-title="General",Action Hollywood Movies
+#EXTINF:-1 tvg-name="Action Hollywood Movies" tvg-logo="" group-title="General",Action Hollywood Movies
 https://cdn-apse1-prod.tsv2.amagi.tv/linear/amg01076-lightningintern-actionhollywood-samsungnz/playlist.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-country="Qatar" tvg-name="Al Jazeera العربية" tvg-logo="https://i.imgur.com/BB93NQP.png" tvg-id="AlJazeeraChannel.qa" tvg-chno="1" group-title="General",Al Jazeera العربية
 https://live-hls-web-aja.getaj.net/AJA/index.m3u8
@@ -21851,8 +21799,6 @@ https://www.youtube.com/c/FRANCE24Arabic/live
 https://dwamdstream103.akamaized.net/hls/live/2015526/dwstream103/index.m3u8
 #EXTINF:-1 tvg-region="Asia" tvg-country="China" tvg-name="CGTN العربية" tvg-logo="https://i.imgur.com/fMsJYzl.png" tvg-id="CGTNArabic.cn" tvg-chno="6" group-title="News",CGTN العربية
 https://arabic-livews.cgtn.com/hls/LSveq57bErWLinBnxosqjisZ220802LSTefTAS9zc9mpU08y3np9TH220802cd/playlist.m3u8
-#EXTINF:-1 tvg-region="Africa" tvg-country="Mauritania" tvg-name="Sahara 24 صحراء" tvg-logo="https://imgur.com/a/7szNpBp" tvg-id="Sahara-24.mr" tvg-chno="9" group-title="General",Sahara 24 صحراء
-https://65.108.206.29/sahara24-live/video.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-name="DW" tvg-logo="https://i.imgur.com/A1xzjOI.png" tvg-id="DWEnglish.de" tvg-chno="5" group-title="General",DW
 https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="United Kingdom" tvg-name="The Guardian" tvg-logo="https://i.imgur.com/o9AYq9V.png" tvg-id="TheGuardian.uk" tvg-chno="11" group-title="News",The Guardian
