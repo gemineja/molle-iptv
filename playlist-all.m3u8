@@ -12653,7 +12653,7 @@ https://jmp2.uk/plu-5dd6dae8ce788b0009eaf77b.m3u8
 https://jmp2.uk/plu-609e7e423e9173000706a681.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="French" tvg-id="PlutoTVKidsClassics.de@FR" tvg-logo="https://images.pluto.tv/channels/609e7e423e9173000706a681/colorLogoPNG_1750147033956.png" group-title="Kids & Family",Pluto TV Kids Classics FR (720p)
 https://jmp2.uk/plu-654a58dbf9cc82000868f0fb.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="French" tvg-id="PlutoTVKidsClub.de@FR" tvg-logo="https://images.pluto.tv/channels/611e6ddc7fcd580007d1eb5f/colorLogoPNG_1748852055317.png" group-title="Kids & Family",Pluto TV Kids Club (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVKidsClub.de@FR" tvg-logo="https://images.pluto.tv/channels/611e6ddc7fcd580007d1eb5f/colorLogoPNG_1748852055317.png" group-title="General",Pluto TV Kids Club (Germany)
 https://jmp2.uk/plu-611e6ddc7fcd580007d1eb5f.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Sweden" tvg-language="Danish" tvg-id="PlutoTVKlassisketegnefilm.se@DK" tvg-logo="https://images.pluto.tv/channels/67f508992ebe80e2929b5c98/colorLogoPNG_1748955041610.png" group-title="Kids & Family",Pluto TV Klassiske tegnefilm (720p)
 https://jmp2.uk/plu-67f508992ebe80e2929b5c98.m3u8
@@ -12747,15 +12747,15 @@ https://jmp2.uk/plu-5defde6d6c07b50009cf0757.m3u8
 https://jmp2.uk/plu-61c1e74354d923000731bf7c.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="Portuguese" tvg-id="PlutoTVPaisagensporStingray.us@BR" tvg-logo="https://images.pluto.tv/channels/604a8dedbca75b0007b1c753/colorLogoPNG.png" group-title="Documentary",Pluto TV Paisagens por Stingray (720p)
 https://jmp2.uk/plu-604a8dedbca75b0007b1c753.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="German" tvg-id="PlutoTVParanormal.de@DACH" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Paranormal (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVParanormal.de@DACH" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="General",Pluto TV Paranormal (Germany)
 https://jmp2.uk/plu-5f98487036af340008da1e37.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Spanish" tvg-id="PlutoTVParanormal.de@ES" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Paranormal (Germany) ES
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVParanormal.de@ES" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="General",Pluto TV Paranormal (Germany) ES
 https://jmp2.uk/plu-612ce5214bb5790007ad3016.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="French" tvg-id="PlutoTVParanormal.de@FR" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Paranormal (Germany) FR
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVParanormal.de@FR" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="General",Pluto TV Paranormal (Germany) FR
 https://jmp2.uk/plu-5f8ed9461b35690007a0bc3a.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVParanormal.de@GB" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Paranormal (Germany) GB
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVParanormal.de@GB" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="General",Pluto TV Paranormal (Germany) GB
 https://jmp2.uk/plu-5d4af2ffa9506ab29cf38c38.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Italian" tvg-id="PlutoTVParanormal.de@IT" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Paranormal (Germany) IT
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVParanormal.de@IT" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="General",Pluto TV Paranormal (Germany) IT
 https://jmp2.uk/plu-66c70033b1a34600087bb09a.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Sweden" tvg-language="English" tvg-id="PlutoTVParanormal.se@DK" tvg-logo="https://images.pluto.tv/channels/62b30beb81f89900071fc7b9/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Paranormal (Sweden) DK
 https://jmp2.uk/plu-62b30beb81f89900071fc7b9.m3u8
@@ -12777,9 +12777,9 @@ https://jmp2.uk/plu-65ce480a78df2200131c597b.m3u8
 https://jmp2.uk/plu-617b37b361e0fd0008cfd8c5.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Italian" tvg-id="PlutoTVRealLife.de@IT" tvg-logo="https://images.pluto.tv/channels/60801976f92a750007a0699c/colorLogoPNG_1775123848385.png" group-title="Lifestyle",Pluto TV Real Life
 https://jmp2.uk/plu-60801976f92a750007a0699c.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="French" tvg-id="PlutoTVReality.de@FR" tvg-logo="https://images.pluto.tv/channels/67ebc1b6432a0e406f141341/colorLogoPNG.png" group-title="Entertainment",Pluto TV Reality (Germany) FR
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVReality.de@FR" tvg-logo="https://images.pluto.tv/channels/67ebc1b6432a0e406f141341/colorLogoPNG.png" group-title="General",Pluto TV Reality (Germany) FR
 https://jmp2.uk/plu-6092544e7639460007d4835e.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVReality.de@GB" tvg-logo="https://images.pluto.tv/channels/67ebc1b6432a0e406f141341/colorLogoPNG.png" group-title="Entertainment",Pluto TV Reality (Germany) GB
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVReality.de@GB" tvg-logo="https://images.pluto.tv/channels/67ebc1b6432a0e406f141341/colorLogoPNG.png" group-title="General",Pluto TV Reality (Germany) GB
 https://jmp2.uk/plu-5bd8186d53ed2c6334ea0855.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="English" tvg-id="PlutoTVReality.us@US" tvg-logo="https://images.pluto.tv/channels/67922858b83355184c699699/colorLogoPNG.png" group-title="Entertainment",Pluto TV Reality (United States)
 https://jmp2.uk/plu-69fa3faab9c0f0d444e64de3.m3u8
@@ -12805,7 +12805,7 @@ https://jmp2.uk/plu-6408b41b83f58900081d91ad.m3u8
 https://jmp2.uk/plu-611e6a9b4bb5790007a6f0f8.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVRetroToons.de@GB" tvg-logo="https://images.pluto.tv/channels/611e6a9b4bb5790007a6f0f8/colorLogoPNG.png" group-title="Kids & Family",Pluto TV Retro Toons GB
 https://jmp2.uk/plu-5c5c2b9d8002db3c3e0b1c6d.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="German" tvg-id="PlutoTVRomance.de@DACH" tvg-logo="https://images.pluto.tv/channels/5dc287ce3086a20009f5024c/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Romance (Germany) DACH
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVRomance.de@DACH" tvg-logo="https://images.pluto.tv/channels/5dc287ce3086a20009f5024c/colorLogoPNG.png" group-title="General",Pluto TV Romance (Germany) DACH
 https://jmp2.uk/plu-5dc287ce3086a20009f5024c.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="English" tvg-id="PlutoTVRomance.us@US" tvg-logo="https://i.imgur.com/GJBxfyf.png" group-title="Movies & Series",Pluto TV Romance (United States)
 https://jmp2.uk/plu-5a66795ef91fef2c7031c599.m3u8
@@ -12819,13 +12819,13 @@ https://jmp2.uk/plu-63a19bb5e6914b000721b5c0.m3u8
 https://jmp2.uk/plu-63eb57d6c111bc0008fe2658.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Italian" tvg-id="PlutoTVScherzierisate.de@IT" tvg-logo="https://images.pluto.tv/channels/609404b0a8ec810007d8de9d/colorLogoPNG.png" group-title="Entertainment",Pluto TV Scherzi e risate
 https://jmp2.uk/plu-609404b0a8ec810007d8de9d.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="German" tvg-id="PlutoTVSciFi.de@DACH" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sci-Fi (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSciFi.de@DACH" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="General",Pluto TV Sci-Fi (Germany)
 https://jmp2.uk/plu-60ed498c4248a400077c0b9d.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Spanish" tvg-id="PlutoTVSciFi.de@ES" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sci-Fi (Germany) ES
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSciFi.de@ES" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="General",Pluto TV Sci-Fi (Germany) ES
 https://jmp2.uk/plu-5f6a38eaa5b68b0007a00e7a.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVSciFi.de@GB" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sci-Fi (Germany) GB
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSciFi.de@GB" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="General",Pluto TV Sci-Fi (Germany) GB
 https://jmp2.uk/plu-5dc02a44a9518600094273ac.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Italian" tvg-id="PlutoTVSciFi.de@IT" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sci-Fi (Germany) IT
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSciFi.de@IT" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="General",Pluto TV Sci-Fi (Germany) IT
 https://jmp2.uk/plu-61728bb9ee3773000840c1fa.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Sweden" tvg-language="English" tvg-id="PlutoTVSciFi.se@DK" tvg-logo="https://images.pluto.tv/channels/60ed498c4248a400077c0b9d/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sci-Fi (Sweden) DK
 https://jmp2.uk/plu-61f9598588f86000078ee7d6.m3u8
@@ -12837,9 +12837,9 @@ https://jmp2.uk/plu-66166cb1307fa30008f275e7.m3u8
 https://jmp2.uk/plu-5f2817d3d7573a00080f9175.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVScifiSeries.de@GB" tvg-logo="https://images.pluto.tv/channels/619247c34a270700077c8415/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sci-fi Series
 https://jmp2.uk/plu-619247c34a270700077c8415.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="German" tvg-id="PlutoTVScience.de@DACH" tvg-logo="https://images.pluto.tv/channels/5d767b4889bca2ce7b73ef2e/colorLogoPNG.png" group-title="Documentary",Pluto TV Science (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVScience.de@DACH" tvg-logo="https://images.pluto.tv/channels/5d767b4889bca2ce7b73ef2e/colorLogoPNG.png" group-title="General",Pluto TV Science (Germany)
 https://jmp2.uk/plu-5d767b4889bca2ce7b73ef2e.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVScience.de@GB" tvg-logo="https://images.pluto.tv/channels/5d767b4889bca2ce7b73ef2e/colorLogoPNG.png" group-title="Documentary",Pluto TV Science (Germany) GB
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVScience.de@GB" tvg-logo="https://images.pluto.tv/channels/5d767b4889bca2ce7b73ef2e/colorLogoPNG.png" group-title="General",Pluto TV Science (Germany) GB
 https://jmp2.uk/plu-5d9492c77ea6f99188738ff1.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="German" tvg-id="PlutoTVSerie.de@DACH" tvg-logo="https://images.pluto.tv/channels/5dc190f7bfed110009d934c3/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Serie
 https://jmp2.uk/plu-5dc190f7bfed110009d934c3.m3u8
@@ -12849,7 +12849,7 @@ https://jmp2.uk/plu-60b9ff2722bfa400072676ef.m3u8
 https://jmp2.uk/plu-608aa777b907770007e5d05d.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Italian" tvg-id="PlutoTVSerieSciFi.de@IT" tvg-logo="https://images.pluto.tv/channels/67ed14aaf7c5d70b9089c3bf/colorLogoPNG_1750259768860.png" group-title="Movies & Series",Pluto TV Serie Sci-Fi
 https://jmp2.uk/plu-67ed14aaf7c5d70b9089c3bf.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Spanish" tvg-id="PlutoTVSeries.de@ES" tvg-logo="https://images.pluto.tv/channels/5f1ac8f49205650007bc15f1/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Series (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSeries.de@ES" tvg-logo="https://images.pluto.tv/channels/5f1ac8f49205650007bc15f1/colorLogoPNG.png" group-title="General",Pluto TV Series (Germany)
 https://jmp2.uk/plu-5f1ac8f49205650007bc15f1.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="Portuguese" tvg-id="PlutoTVSeriesAcao.us@BR" tvg-logo="https://images.pluto.tv/channels/6474ab1da51cb80008bfb5f4/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Series Acao
 https://jmp2.uk/plu-6474ab1da51cb80008bfb5f4.m3u8
@@ -12881,7 +12881,7 @@ https://jmp2.uk/plu-5dd837642c6e9300098ad484.m3u8
 https://jmp2.uk/plu-691627e4a29a6123e400b3e0.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="Spanish" tvg-id="PlutoTVSeriesRetro.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5de802659167b10009e7deba/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Series Retro
 https://jmp2.uk/plu-5de802659167b10009e7deba.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Spanish" tvg-id="PlutoTVSeriesSciFi.de@ES" tvg-logo="https://images.pluto.tv/channels/65ddec1ef7f0af0008be4b65/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Series Sci-Fi (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSeriesSciFi.de@ES" tvg-logo="https://images.pluto.tv/channels/65ddec1ef7f0af0008be4b65/colorLogoPNG.png" group-title="General",Pluto TV Series Sci-Fi (Germany)
 https://jmp2.uk/plu-65ddec1ef7f0af0008be4b65.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVSherlock.de@GB" tvg-logo="https://images.pluto.tv/channels/5dc2c00abfed110009d97243/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sherlock
 https://jmp2.uk/plu-5dc2c00abfed110009d97243.m3u8
@@ -12893,15 +12893,15 @@ https://jmp2.uk/plu-604b91e0692f770007d9f33f.m3u8
 https://jmp2.uk/plu-5d767ab2b456c8cf265ce921.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVSitcoms.de@GB" tvg-logo="https://images.pluto.tv/channels/5d767ab2b456c8cf265ce921/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Sitcoms GB
 https://jmp2.uk/plu-62f53dc6ee9a0400071dc22b.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="German" tvg-id="PlutoTVSnooker900.de@DACH" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="Sports",Pluto TV Snooker 900 (Germany) (720p)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSnooker900.de@DACH" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="General",Pluto TV Snooker 900 (Germany) (720p)
 https://jmp2.uk/plu-68ac5543a1ac0c90f2c8943e.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Spanish" tvg-id="PlutoTVSnooker900.de@ES" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="Sports",Pluto TV Snooker 900 (Germany) ES (720p)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSnooker900.de@ES" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="General",Pluto TV Snooker 900 (Germany) ES (720p)
 https://jmp2.uk/plu-69148c470155f9b136b5d856.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="French" tvg-id="PlutoTVSnooker900.de@FR" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="Sports",Pluto TV Snooker 900 (Germany) FR (720p)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSnooker900.de@FR" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="General",Pluto TV Snooker 900 (Germany) FR (720p)
 https://jmp2.uk/plu-66fd35e44ca31f0008060b77.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVSnooker900.de@GB" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="Sports",Pluto TV Snooker 900 (Germany) GB (720p)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSnooker900.de@GB" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="General",Pluto TV Snooker 900 (Germany) GB (720p)
 https://jmp2.uk/plu-655b7cbb2c46f300086f0afa.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Italian" tvg-id="PlutoTVSnooker900.de@IT" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="Sports",Pluto TV Snooker 900 (Germany) IT (720p)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVSnooker900.de@IT" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="General",Pluto TV Snooker 900 (Germany) IT (720p)
 https://jmp2.uk/plu-69148c76e9dec35c9269a16c.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Sweden" tvg-language="English" tvg-id="PlutoTVSnooker900.se@DK" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="Sports",Pluto TV Snooker 900 (Sweden) DK (720p)
 https://jmp2.uk/plu-68ac55bb3efb41cd979a65ec.m3u8
@@ -12955,9 +12955,9 @@ https://jmp2.uk/plu-5c6dc88fcd232425a6e0f06e.m3u8
 https://jmp2.uk/plu-66aa67493a4ad2000806d91b.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="English" tvg-id="PlutoTVTheTwilightZone.us@SD" tvg-logo="https://i.imgur.com/FiIRQAR.png" group-title="Movies & Series",Pluto TV The Twilight Zone
 https://jmp2.uk/plu-67352ed93a61d4000881f9fa.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Spanish" tvg-id="PlutoTVThrillers.de@ES" tvg-logo="https://images.pluto.tv/channels/5f1ac8a87cd38d000745d7cf/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Thrillers (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVThrillers.de@ES" tvg-logo="https://images.pluto.tv/channels/5f1ac8a87cd38d000745d7cf/colorLogoPNG.png" group-title="General",Pluto TV Thrillers (Germany)
 https://jmp2.uk/plu-5f1ac8a87cd38d000745d7cf.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="English" tvg-id="PlutoTVThrillers.de@GB" tvg-logo="https://images.pluto.tv/channels/5f1ac8a87cd38d000745d7cf/colorLogoPNG.png" group-title="Movies & Series",Pluto TV Thrillers (Germany) GB
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVThrillers.de@GB" tvg-logo="https://images.pluto.tv/channels/5f1ac8a87cd38d000745d7cf/colorLogoPNG.png" group-title="General",Pluto TV Thrillers (Germany) GB
 https://jmp2.uk/plu-5dbfedccc563080009b60f4a.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="French" tvg-id="PlutoTVToons.de@FR" tvg-logo="https://images.pluto.tv/channels/6880aa28164eb4890282e803/colorLogoPNG_1760522020317.png" group-title="Kids & Family",Pluto TV Toons FR (720p)
 https://jmp2.uk/plu-5f8eba14a4ffb8000764e950.m3u8
@@ -12967,11 +12967,11 @@ https://jmp2.uk/plu-65253f9881f942000833ccd5.m3u8
 https://jmp2.uk/plu-600acaff5f2d6e000745effb.m3u8
 #EXTINF:-1 tvg-region="Americas" tvg-country="United States" tvg-language="English" tvg-id="PlutoTVTrendingNow.us@SD" tvg-logo="https://images.pluto.tv/channels/673247127d5da5000817b4d6/colorLogoPNG_1732662634386.png" group-title="Movies & Series",Pluto TV Trending Now
 https://jmp2.uk/plu-673247127d5da5000817b4d6.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="German" tvg-id="PlutoTVTrueCrime.de@DACH" tvg-logo="https://images.pluto.tv/channels/615333098185f00008715a56/colorLogoPNG.png" group-title="Movies & Series",Pluto TV True Crime (Germany)
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVTrueCrime.de@DACH" tvg-logo="https://images.pluto.tv/channels/615333098185f00008715a56/colorLogoPNG.png" group-title="General",Pluto TV True Crime (Germany)
 https://jmp2.uk/plu-615333098185f00008715a56.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Spanish" tvg-id="PlutoTVTrueCrime.de@ES" tvg-logo="https://images.pluto.tv/channels/615333098185f00008715a56/colorLogoPNG.png" group-title="Movies & Series",Pluto TV True Crime (Germany) ES
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVTrueCrime.de@ES" tvg-logo="https://images.pluto.tv/channels/615333098185f00008715a56/colorLogoPNG.png" group-title="General",Pluto TV True Crime (Germany) ES
 https://jmp2.uk/plu-64a3f200f238ce0008d47247.m3u8
-#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-language="Italian" tvg-id="PlutoTVTrueCrime.de@IT" tvg-logo="https://images.pluto.tv/channels/615333098185f00008715a56/colorLogoPNG.png" group-title="Movies & Series",Pluto TV True Crime (Germany) IT
+#EXTINF:-1 tvg-region="Europe" tvg-country="Germany" tvg-id="PlutoTVTrueCrime.de@IT" tvg-logo="https://images.pluto.tv/channels/615333098185f00008715a56/colorLogoPNG.png" group-title="General",Pluto TV True Crime (Germany) IT
 https://jmp2.uk/plu-66d9ab4bf0f17500084e9b7e.m3u8
 #EXTINF:-1 tvg-region="Europe" tvg-country="Sweden" tvg-language="English" tvg-id="PlutoTVTrueCrime.se@DK" tvg-logo="https://images.pluto.tv/channels/615333098185f00008715a56/colorLogoPNG.png" group-title="Movies & Series",Pluto TV True Crime (Sweden) DK
 https://jmp2.uk/plu-61c097ec8bb1830008e3f962.m3u8
