@@ -2,41 +2,67 @@ name: Update IPTV Playlist
 
 on:
   schedule:
-    - cron: '0 */12 * * *'
+    # Off the hour on purpose: jobs scheduled for :00 queue behind everyone
+    # else's, and this one used to start two to four hours late.
+    - cron: '23 */12 * * *'
+  push:
+    # A change to the build should show up in the playlist now, not at the
+    # next schedule. The bot's own playlist commits touch none of these.
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/refresh.yml'
   workflow_dispatch:
+    inputs:
+      min_kept:
+        description: 'Refuse to publish below this share of the last playlist (0 turns the guard off)'
+        default: '0.6'
 
 permissions:
   contents: write
 
+# One build at a time. Two overlapping runs would race each other to push,
+# and the loser would throw its whole playlist away.
+concurrency:
+  group: playlist
+  cancel-in-progress: false
+
 jobs:
   update-playlist:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0   # a shallow clone cannot rebase
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: 'pip'
+          cache-dependency-path: requirements.txt
 
       - name: Install dependencies
-        id: install
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
+
+      # Seconds, and offline. A broken build stops here instead of after
+      # three minutes of network, and long before it can publish anything.
+      - name: Test
+        run: python -m unittest discover -s tests
 
       - name: Run update script
         id: update
+        env:
+          MIN_KEPT: ${{ inputs.min_kept || '0.6' }}
         run: python scripts/update_playlist.py
 
       - name: Commit and push if playlist changed
         id: commit
-        if: success() && steps.update.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -50,38 +76,24 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "No changes — nothing to commit."
-          else
-            git commit -m "chore: refresh playlist [skip ci]"
-
-            # The build takes minutes, so a commit can land while it runs. A
-            # bare push then loses the whole playlist to a non-fast-forward,
-            # which is exactly how the geo-restriction fix got thrown away.
-            for attempt in 1 2 3; do
-              if git push; then
-                echo "Pushed on attempt $attempt."
-                exit 0
-              fi
-              echo "Push rejected — rebasing onto origin/main and retrying."
-              git pull --rebase --autostash origin main
-            done
-
-            echo "Could not push after 3 attempts." >&2
-            exit 1
+            echo "No playlist changes to commit." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
           fi
 
-      - name: Upload playlist as artifact
-        if: success() && steps.update.outcome == 'success'
-        uses: actions/upload-artifact@v4
-        with:
-          name: playlist
-          path: |
-            playlist.m3u8
-            playlist-all.m3u8
-          retention-days: 7
-          if-no-files-found: warn
+          git commit -m "chore: refresh playlist [skip ci]"
 
-      - name: Report status
-        if: always()
-        run: |
-          echo "Update status: ${{ steps.update.outcome || 'unknown' }}"
-          echo "Commit status: ${{ steps.commit.outcome || 'skipped' }}"
+          # The build takes minutes, so a commit can land while it runs. A
+          # bare push then loses the whole playlist to a non-fast-forward,
+          # which is exactly how the geo-restriction fix got thrown away.
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "Pushed on attempt $attempt."
+              echo "Committed \`$(git rev-parse --short HEAD)\`." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "Push rejected — rebasing onto origin/main and retrying."
+            git pull --rebase --autostash origin main
+          done
+
+          echo "Could not push after 3 attempts." >&2
+          exit 1

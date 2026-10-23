@@ -1,0 +1,12 @@
+# Keeps the workflow's actions current, so a runtime deprecation arrives as a
+# pull request instead of a warning nobody reads in the run log.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly
