@@ -26,9 +26,13 @@ Two files come out:
 import os
 import re
 import sys
+import threading
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.exceptions import HTTPError as Urllib3Error
 
 SOURCES = [
     ("iptv-org/index", "https://iptv-org.github.io/iptv/index.m3u"),
@@ -68,24 +72,60 @@ CONTINENT_ORDER = [("EUR", "Europe"), ("ASIA", "Asia"), ("AFR", "Africa"),
 VALIDATE = os.environ.get("VALIDATE", "1") != "0"
 WORKERS = int(os.environ.get("VALIDATE_WORKERS", "64"))
 TIMEOUT = float(os.environ.get("VALIDATE_TIMEOUT", "8"))
+RETRY_TIMEOUT = float(os.environ.get("VALIDATE_RETRY_TIMEOUT", "15"))
 LIMIT = int(os.environ.get("VALIDATE_LIMIT", "0"))  # 0 = no limit; for local runs
+# refuse to publish a list that shrank below this share of the last one
+MIN_KEPT = float(os.environ.get("MIN_KEPT", "0.6"))
+
+STATS = {}  # numbers for the run summary, filled in as the build goes
 
 UA = "Mozilla/5.0 (compatible; molle-iptv/1.0; +https://github.com/gemineja/molle-iptv)"
 
+PUBLISHED = "playlist.m3u8"
+EVERYTHING = "playlist-all.m3u8"
 
-def fetch_text(url):
-    resp = requests.get(url, timeout=30)
+# One session per worker thread. Over a thousand streams sit on a handful of
+# hosts (jmp2.uk alone carries 1,100), and a session keeps those connections
+# open between checks instead of paying for a fresh TLS handshake every time.
+# requests does not promise that one Session is safe to share between
+# threads, so each thread gets its own.
+_local = threading.local()
+
+
+def session():
+    s = getattr(_local, "session", None)
+    if s is None:
+        s = requests.Session()
+        s.mount("https://", HTTPAdapter(pool_connections=32))
+        s.headers["User-Agent"] = UA
+        _local.session = s
+    return s
+
+
+def fetch(url):
+    resp = session().get(url, timeout=30)
     resp.raise_for_status()
-    return resp.text
+    return resp
 
 
-def fetch_json(url):
-    resp = requests.get(url, timeout=30)
-    resp.raise_for_status()
-    return resp.json()
+def fetch_all(urls):
+    """{key: url} -> {key: Response | Exception}, all at once.
+
+    Five API files and the sources used to be fetched one after another; none
+    depends on another, so they now share the wait.
+    """
+    with ThreadPoolExecutor(len(urls) or 1) as pool:
+        futures = {key: pool.submit(fetch, url) for key, url in urls.items()}
+    out = {}
+    for key, future in futures.items():
+        try:
+            out[key] = future.result()
+        except Exception as e:
+            out[key] = e
+    return out
 
 
-def load_metadata():
+def load_metadata(fetched):
     """tvg-id -> {language, category, country, region}, plus an adult id set.
 
     Playlist ids look like "DR1.dk@SD"; channels.json keys on "DR1.dk", so the
@@ -93,11 +133,14 @@ def load_metadata():
     """
     meta, nsfw = {}, set()
     try:
-        channels = fetch_json(f"{API}/channels.json")
-        countries = {c["code"]: c["name"] for c in fetch_json(f"{API}/countries.json")}
-        regions = fetch_json(f"{API}/regions.json")
-        feeds = fetch_json(f"{API}/feeds.json")
-        languages = {l["code"]: l["name"] for l in fetch_json(f"{API}/languages.json")}
+        failed = next((r for r in fetched.values() if isinstance(r, Exception)), None)
+        if failed:
+            raise failed
+        channels = fetched["channels"].json()
+        countries = {c["code"]: c["name"] for c in fetched["countries"].json()}
+        regions = fetched["regions"].json()
+        feeds = fetched["feeds"].json()
+        languages = {l["code"]: l["name"] for l in fetched["languages"].json()}
     except Exception as e:
         print(f"WARNING: metadata unavailable, channels stay unenriched: {e}",
               file=sys.stderr)
@@ -181,14 +224,14 @@ def enrich(extinf, meta, lang, nsfw, countries, country_region):
     return extinf
 
 
-def merge(sources, meta, lang, nsfw, countries, country_region):
+def merge(sources, fetched, meta, lang, nsfw, countries, country_region):
     entries, seen = [], set()
-    for name, url in sources:
-        try:
-            lines = fetch_text(url).split("\n")
-        except Exception as e:
-            print(f"WARNING: Failed to fetch {name}: {e}", file=sys.stderr)
+    for name, _ in sources:
+        resp = fetched[name]
+        if isinstance(resp, Exception):
+            print(f"WARNING: Failed to fetch {name}: {resp}", file=sys.stderr)
             continue
+        lines = resp.text.split("\n")
         before = len(entries)
         for i, line in enumerate(lines):
             if not line.startswith("#EXTINF"):
@@ -203,8 +246,13 @@ def merge(sources, meta, lang, nsfw, countries, country_region):
     return entries
 
 
-def stream_status(url):
-    """"ok" | "restricted" | "dead", from where this build happens to run.
+# Answers that say "not right now" rather than "no". A stream that gets one of
+# these has not been shown to be dead, only to be busy.
+SOFT_STATUS = {408, 425, 429, 500, 502, 503, 504}
+
+
+def stream_status(url, timeout=None):
+    """"ok" | "restricted" | "flaky" | "dead", from where this build runs.
 
     The distinction matters because the build runs on a GitHub runner in the
     United States while the audience is somewhere else entirely. DR1 and DR2
@@ -216,16 +264,22 @@ def stream_status(url):
     that *this machine* may not watch it, which is a different fact and not
     one worth deleting a channel over. Those are kept and marked; the player
     can tell the visitor a channel may need to be in its home country.
+
+    "flaky" is the same idea one step further: a timeout, a dropped connection
+    or a 503 says the server was busy at the moment we asked, not that the
+    channel has gone. validate() decides what to do about those.
     """
     if not url.startswith("https://"):
         return "dead"          # mixed content: nobody can play it in a browser
     probe_origin = "https://molle-iptv.example"
     resp = None
     try:
-        resp = requests.get(url, timeout=TIMEOUT, stream=True,
-                            headers={"User-Agent": UA, "Origin": probe_origin})
+        resp = session().get(url, timeout=timeout or TIMEOUT, stream=True,
+                             headers={"Origin": probe_origin})
         if resp.status_code in (401, 403, 451):
             return "restricted"
+        if resp.status_code in SOFT_STATUS:
+            return "flaky"
         if resp.status_code != 200:
             return "dead"
         if resp.headers.get("Access-Control-Allow-Origin") not in ("*", probe_origin):
@@ -234,6 +288,11 @@ def stream_status(url):
             return "dead"
         body = resp.raw.read(4096, decode_content=True).decode("utf-8", "replace")
         return "dead" if "http://" in body else "ok"
+    except requests.exceptions.SSLError:
+        return "dead"          # a browser refuses a bad certificate just the same
+    except (requests.Timeout, requests.ConnectionError,
+            requests.exceptions.ChunkedEncodingError, Urllib3Error):
+        return "flaky"
     except Exception:
         return "dead"
     finally:
@@ -244,15 +303,40 @@ def stream_status(url):
                 pass
 
 
-def validate(entries):
+def check_all(entries, timeout):
+    with ThreadPoolExecutor(WORKERS) as pool:
+        return list(pool.map(lambda e: stream_status(e[1], timeout), entries))
+
+
+def validate(entries, previous=frozenset()):
+    """Keeps what a browser can play, plus what is only geo-restricted.
+
+    Every build used to drop about 110 channels and add about 100 back, and
+    over a dozen builds some 900 channels blinked in and out of the list.
+    Most of them were not dead; they had been slow for eight seconds. So a
+    channel that was published last time and only failed softly now — a
+    timeout, a reset, a 503 — is asked once more, later and with more
+    patience, before it is taken away from anyone. That second pass is small
+    by construction: it only covers channels that were working yesterday.
+    """
     targets = entries[:LIMIT] if LIMIT else entries
     print(f"Validating {len(targets)} streams, {WORKERS} at a time ({TIMEOUT}s timeout)…")
-    with ThreadPoolExecutor(WORKERS) as pool:
-        results = list(pool.map(lambda e: stream_status(e[1]), targets))
+    results = check_all(targets, TIMEOUT)
+
+    retry = [i for i, (status, (_, url)) in enumerate(zip(results, targets))
+             if status == "flaky" and url in previous]
+    rescued = 0
+    if retry:
+        print(f"Re-checking {len(retry)} published streams that failed softly "
+              f"({RETRY_TIMEOUT}s timeout)…")
+        for i, status in zip(retry, check_all([targets[i] for i in retry], RETRY_TIMEOUT)):
+            rescued += status in ("ok", "restricted")
+            results[i] = status
 
     kept = []
-    counts = {"ok": 0, "restricted": 0, "dead": 0}
+    counts = Counter()
     for (extinf, url), status in zip(targets, results):
+        status = "dead" if status == "flaky" else status
         counts[status] += 1
         if status == "dead":
             continue
@@ -265,7 +349,11 @@ def validate(entries):
     total = max(len(targets), 1)
     print(f"Playable here: {counts['ok']} ({counts['ok']/total*100:.1f}%)  "
           f"kept as geo-restricted: {counts['restricted']}  "
-          f"dropped as dead: {counts['dead']}")
+          f"dropped as dead: {counts['dead']}  "
+          f"rescued on re-check: {rescued}")
+    STATS.update(checked=len(targets), playable=counts["ok"],
+                 restricted=counts["restricted"], dead=counts["dead"],
+                 retried=len(retry), rescued=rescued)
     return kept
 
 
@@ -312,41 +400,95 @@ def dedupe(entries):
     return kept
 
 
+def read_urls(path):
+    """The stream URLs a playlist we published earlier holds, if it exists."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            return {line.strip() for line in f if line.startswith("http")}
+    except OSError:
+        return set()
+
+
 def write(path, entries):
     with open(path, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
         for extinf, url in entries:
             f.write(f"{extinf}\n{url}\n")
-    groups = len({(re.search(r'group-title="([^"]*)"', e) or [None, ""])[1]
-                  for e, _ in entries})
-    print(f"Wrote {path}: {len(entries)} channels in {groups} groups.")
+    groups = Counter((re.search(r'group-title="([^"]*)"', e) or [None, ""])[1]
+                     for e, _ in entries)
+    print(f"Wrote {path}: {len(entries)} channels in {len(groups)} groups.")
+    return groups
+
+
+def summarise(previous, playable, groups):
+    """A short report on the run page, so nobody has to read the raw log."""
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not path:
+        return
+    now = {url for _, url in playable}
+    s = STATS
+    rows = [
+        ("Merged from sources", s.get("merged", 0)),
+        ("Checked", s.get("checked", 0)),
+        ("Playable in a browser", s.get("playable", 0)),
+        ("Kept as geo-restricted", s.get("restricted", 0)),
+        ("Dropped as dead", s.get("dead", 0)),
+        ("Re-checked after a soft failure", s.get("retried", 0)),
+        ("…and rescued by the re-check", s.get("rescued", 0)),
+        (f"Published in `{PUBLISHED}`", len(playable)),
+        ("New since the last build", len(now - previous) if previous else "–"),
+        ("Gone since the last build", len(previous - now) if previous else "–"),
+    ]
+    lines = ["### Playlist build", "", "| | |", "|---|---:|"]
+    lines += [f"| {k} | {v:,} |" if isinstance(v, int) else f"| {k} | {v} |"
+              for k, v in rows]
+    lines += ["", "| Genre | Channels |", "|---|---:|"]
+    lines += [f"| {g} | {n:,} |" for g, n in groups.most_common()]
+    with open(path, "a", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
 
 
 def main():
-    meta, lang, nsfw, countries, country_region = load_metadata()
-    entries = merge(SOURCES, meta, lang, nsfw, countries, country_region)
+    previous = read_urls(PUBLISHED)
+    fetched = fetch_all({
+        **{key: f"{API}/{key}.json"
+           for key in ("channels", "countries", "regions", "feeds", "languages")},
+        **dict(SOURCES),
+    })
+    meta, lang, nsfw, countries, country_region = load_metadata(
+        {k: v for k, v in fetched.items() if k not in dict(SOURCES)})
+    entries = merge(SOURCES, fetched, meta, lang, nsfw, countries, country_region)
     if not entries:
         print("ERROR: All sources failed.", file=sys.stderr)
         sys.exit(1)
+    STATS["merged"] = len(entries)
 
-    write("playlist-all.m3u8", dedupe(entries))
+    write(EVERYTHING, dedupe(entries))
 
     if not VALIDATE:
         print("VALIDATE=0 — publishing the merge unchecked.")
-        write("playlist.m3u8", dedupe(entries))
+        write(PUBLISHED, dedupe(entries))
         return
 
     # Validate everything *before* deduplicating, so that when a channel comes
     # in several variants the survivor is the best one that actually works,
     # not the highest number that happens to be dead.
-    playable = dedupe(validate(entries))
+    playable = dedupe(validate(entries, previous))
     if not playable:
         # Never publish an empty playlist over a good one: a network problem
         # here would otherwise wipe the list every embedder points at.
-        print("ERROR: nothing passed validation; leaving playlist.m3u8 alone.",
+        print(f"ERROR: nothing passed validation; leaving {PUBLISHED} alone.",
               file=sys.stderr)
         sys.exit(1)
-    write("playlist.m3u8", playable)
+    if previous and not LIMIT and len(playable) < len(previous) * MIN_KEPT:
+        # The same reasoning for a partial outage: when the runner's network
+        # has a bad few minutes, half the list "fails" at once. A real
+        # collapse of that size would also be worth a human looking at it.
+        print(f"ERROR: only {len(playable)} channels passed against "
+              f"{len(previous)} last time; leaving {PUBLISHED} alone.",
+              file=sys.stderr)
+        sys.exit(1)
+    summarise(previous, playable, write(PUBLISHED, playable))
 
 
 if __name__ == "__main__":
